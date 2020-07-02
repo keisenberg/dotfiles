@@ -1,0 +1,16 @@
+#
+## Static functions
+
+# Function modification :: roekoe
+roekoe() {
+    # Function :: cupdate
+    cupdate
+
+    # Function :: brew_update_upgrade
+    brew_update_upgrade
+
+    # Function :: mas_upgrade
+    mas_upgrade
+}
+
+# vi: filetype=zsh

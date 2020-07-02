@@ -1,0 +1,57 @@
+#
+## Directives :: Visualization :: Highlighting
+
+# Color header regexes behave like color body regexes: color is applied to the exact text matched by the regex
+set header_color_partial = yes
+
+
+#
+## Directives :: Visualization :: Colorization
+
+# Colorization :: Generic :: Status
+color status            blue             default
+
+# Colorization :: Index :: Listing
+color indicator         color233         color67                                                      # Blue   :: Soft     :: Selected line
+
+# Colorization :: Index :: Messages
+color index             green            default  ~g                                                  # Green  :: Bright   :: Cryptographically signed
+color index             green            default  ~G                                                  # Green  :: Bright   :: Cryptographically encrypted
+color index             color97          default  ~v                                                  # Purple :: Bright   :: Part of collapsed thread
+color index             red              default  ~D                                                  # Red    :: Bright   :: Deleted
+color index             color130         default  ~F                                                  # Brown  :: Darkish  :: Flagged
+color index             color32          default  ~U                                                  # Blue   :: Darkish  :: Unread
+color index             color202         default  ~T                                                  # Orange :: Bright   :: Tagged
+
+color compose           header           yellow   default                                             # Yellow :: Soft     :: Header
+color compose           security_both    color40  default                                             # Orange :: Bright   :: Encrypted + Signed
+color compose           security_encrypt color32  default                                             # Orange :: Bright   :: Encrypted
+color compose           security_none    color196 default                                             # Red    :: Bright   :: NOT_ENCRYPTED + NOT_SIGNED
+color compose           security_sign    color208 default                                             # Orange :: Bright   :: Signed
+
+
+# Colorization :: Pager :: Body
+color body              color145         default  "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"               # Grey  :: Soft     :: Email addresses
+color body              color145         default  "(BAD signature)"                                   # Grey  :: Soft     :: GPG signature
+color body              color145         default  "(Good signature)"                                  # Grey  :: Soft     :: GPG signature
+color body              color145         default  "mailto: *[^ ]+\(\\?subject=[^ ]+\)?"               # Grey  :: Soft     :: mailto links
+color body              color145         default  "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # Grey  :: Soft     :: Text *bold*
+color body              color145         default  "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)"     # Grey  :: Soft     :: Text /italic/
+color body              color145         default  "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)"     # Grey  :: Soft     :: Text _underlined_
+color body              color145         default  "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+"        # Grey  :: Soft     :: URLs
+color body              color145         default  "www\.[\-\.,/%~_:?&=\#a-zA-Z0-9]+"                  # Grey  :: Soft     :: URLs
+
+# Colorization :: Pager :: Attachment
+color attachment        color101         default                                                      # Olive  :: Darkish :: Attachment(s)
+
+# Colorization :: Pager :: Header
+color header            yellow           default  "^(Date|From|To|Cc|Bcc|Reply-To|Subject):"          # Yellow :: Bright  :: Header attributes
+
+# Colorization :: Sidebar
+color sidebar_divider   color238         default                                                      # Blank  :: None     :: Sidebar divider
+color sidebar_flagged   color130         default                                                      # Red    :: Bright   :: Flagged email messages
+color sidebar_highlight white            color238                                                     # White  :: Bright   :: Current selection
+color sidebar_indicator yellow           default                                                      # Yellow :: Lightish :: Current mailbox
+color sidebar_unread    brightblue       default                                                      # Blue   :: Bright   :: New email messages
+
+# vi: filetype=neomuttrc

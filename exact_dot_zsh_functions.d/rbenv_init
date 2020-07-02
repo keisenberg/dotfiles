@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: rbenv_init
+rbenv_init() {
+    # Action :: Configure the shell environment for rbenv
+    eval "$(rbenv init -)"
+}
+
+# vi: filetype=zsh

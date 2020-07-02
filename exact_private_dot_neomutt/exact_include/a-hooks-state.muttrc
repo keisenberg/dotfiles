@@ -1,0 +1,8 @@
+#
+## Directives :: Hooks :: State
+
+# Hooks :: State :: Startup
+startup-hook 'echo `rm -f ~/.cache/neomutt/temporary/*`'
+startup-hook 'echo `~/.neomutt/contrib/mailbox-provision`'
+
+# vi: filetype=neomuttrc

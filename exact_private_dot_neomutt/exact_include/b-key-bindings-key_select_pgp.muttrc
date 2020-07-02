@@ -1,0 +1,17 @@
+#
+## Directives :: Key unbindings :: pager
+
+# Unbindings
+unbind key_select_pgp %
+
+unbind key_select_pgp c
+
+
+# Bindings
+bind key_select_pgp d verify-key
+bind key_select_pgp j next-entry
+bind key_select_pgp k previous-entry
+bind key_select_pgp n view-name
+bind key_select_pgp v search-next
+
+# vi: filetype=neomuttrc

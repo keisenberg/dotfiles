@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+## tmux_extra_tpm :: tmux :: Extra :: TPM
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_290_tmux_extra_tpm'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence directory
+if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    # Action :: git :: Clone repository
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: git :: clone :: https://github.com/tmux-plugins/tpm :: $HOME/.tmux/plugins/tpm :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+
+    # Variable modification :: TPM :: Plugin installation
+    readonly cr_tpm_pi='yes'
+fi
+
+#
+## Main :: Phase 1
+
+# Validate :: Necessity to install TPM plugins
+if [[ "${cr_tpm_pi:-NULL}" == 'yes' ]]; then
+    # Action :: tmux :: TPM :: Install plugins
+    tmux -2 new-session -D -s tpm-install-plugins "$HOME/.tmux/plugins/tpm/bindings/install_plugins" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: tmux :: Session :: tpm-install-plugins :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

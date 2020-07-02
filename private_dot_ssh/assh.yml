@@ -1,0 +1,45 @@
+## assh.yml:  assh :: Configuration
+
+
+#
+## Directives :: Common
+
+# assh :: Known hosts file :: Path
+ASSHKnownHostFile: /dev/null
+
+
+#
+## Directives :: Defaults
+
+defaults:
+  # Enables the sharing of multiple sessions over a single network connection
+  ControlMaster: auto
+  # Specify the path to the control socket used for connection sharing
+  ControlPath: ~/.cache/ssh/%C.sock
+  # Automatically creates ControlPath directories so you can use slashes in your ControlPath option
+  ControlMasterMkdir: true
+  # Ensure that the master connection should remain open in the background (waiting for future client connections) after the initial client connection has been closed
+  ControlPersist: yes
+
+  # Use compression
+  Compression: yes
+
+  # Specify verbosity level that is used when logging messages from ssh
+  LogLevel: ERROR
+
+  # Timeout interval in seconds after which if no data has been received from the server, ssh will send a message through the encrypted channel to request a response from the server
+  ServerAliveInterval: 5
+  # Number of server alive messages which may be sent without ssh receiving any messages back from the server
+  ServerAliveCountMax: 18
+
+  # Full pathname of the xauth program
+  XAuthLocation: /opt/X11/bin/xauth
+
+
+#
+## Directives :: Includes
+
+includes:
+  # Include dynamic configuration files
+  - ~/.assh.d/hosts/*.yml
+  - ~/.assh.d/templates/*.yml

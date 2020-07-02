@@ -1,0 +1,15 @@
+## mailcap-gui :: mailcap :: GUI
+
+
+# Filetype :: application/*
+application/pdf ; open -a Preview '%s'
+
+# Filetype :: image/*
+image/gif       ; open -a Preview '%s'
+image/jpeg      ; open -a Preview '%s' ; needsterminal ; description=JPEG Image ; nametemplate=%s.jpg
+image/jpg       ; open -a Preview '%s' ; needsterminal ; description=JPEG Image ; nametemplate=%s.jpg
+
+# Filetype :: text/*
+text/html       ; open -a Firefox '%s' ; needsterminal ; description=HTML Text  ; nametemplate=%s.html
+
+# vi: filetype=mailcap

@@ -1,0 +1,11 @@
+#
+## Static functions
+
+# Function modification :: t-obfuscated-k2n
+t-obfuscated-k2n() {
+    # Action :: cd :: Specified transitory directory
+    # shellcheck disable=SC2164
+    cd "$HOME/Transitory/obfuscated-k2n"
+}
+
+# vi: filetype=zsh

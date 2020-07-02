@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+#
+## Variables :: Static
+
+# Mailbox
+readonly sr_mailbox='obfuscated-keisenberg-k2e'
+
+#
+## Main :: Phase 0
+
+# Action :: notmuch :: Batch process tagging directives
+notmuch --config="$HOME/.notmuch/$sr_mailbox.config" tag --batch --input="$HOME/.notmuch/$sr_mailbox.tags"

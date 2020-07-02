@@ -1,0 +1,22 @@
+#
+## Directives :: Paths
+
+# Specify the default location of your mailboxes
+set folder = '~/.mail'
+
+# Header cache database
+set header_cache = '~/.cache/neomutt/header/'
+
+# Which files to consult when attempting to display MIME bodies not directly supported by NeoMutt
+set mailcap_path = '~/.neomutt/extra/mailcap-cli'
+
+# NeoMutt will cache copies of messages from your IMAP and POP servers here
+set message_cachedir = '~/.cache/neomutt/message/'
+
+# Program and arguments used to deliver mail
+set sendmail  = '/usr/local/bin/msmtp'
+
+# Specify where NeoMutt will place its temporary files needed for displaying and composing messages
+set tmpdir = '~/.cache/neomutt/temporary'
+
+# vi: filetype=neomuttrc

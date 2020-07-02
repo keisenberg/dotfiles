@@ -1,0 +1,5 @@
+## sudoers_group_wheel:  sudoers :: Group :: wheel
+
+
+# Allow :: %wheel :: ALL :: Without password
+%wheel ALL = (ALL) NOPASSWD: ALL

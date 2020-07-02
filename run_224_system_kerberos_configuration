@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+## system_kerberos_configuration :: System :: Kerberos :: Configuration
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_224_system_kerberos_configuration'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Checksum :: System :: Kerberos :: configuration
+readonly cr_checksum_system_kerberos_configuration="$HOME/.config/chezmoi/checksum/$cr_script_sn/krb5.conf"
+
+# Variable modification :: Target :: System :: Kerberos :: Configuration
+readonly cr_target_system_kerberos_configuration="$HOME/.local/share/chezmoi/.data/$cr_script_sn/krb5.conf"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence checksum file :: System :: Kerberos :: Configuration
+if [[ -e "$cr_checksum_system_kerberos_configuration" ]]; then
+    # Validate :: Determine checksum :: Data entity
+    if [[ "$(LC_ALL=C shasum --algorithm 512256 --text "$cr_target_system_kerberos_configuration" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')" = "$(cat "$cr_checksum_system_kerberos_configuration")" ]]; then
+        # Action :: Graceful exit
+        exit 0
+    fi
+fi
+
+#
+## Main :: Phase 0
+
+# File modification :: /private/etc/krb5.conf
+sudo cp -v "$cr_target_system_kerberos_configuration" /private/etc/krb5.conf || {
+    # Notify :: Copy failure
+    printf '%s\n' "FAIL :: cp :: $cr_target_system_kerberos_configuration :: /private/etc/krb5.conf :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Postprocess :: Phase 0
+
+# Validate :: Existence directory :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+if [[ ! -d "$HOME/.config/chezmoi/checksum/$cr_script_sn" ]]; then
+    # Directory modification :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+    mkdir -v "$HOME/.config/chezmoi/checksum/$cr_script_sn"
+fi
+
+# File modification :: $cr_checksum_system_kerberos_configuration
+LC_ALL=C shasum --algorithm 512256 --text "$cr_target_system_kerberos_configuration" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$cr_checksum_system_kerberos_configuration" || {
+    # Notify :: Checksum failure
+    printf '%s\n' "FAIL :: shasum :: $cr_target_system_kerberos_configuration :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

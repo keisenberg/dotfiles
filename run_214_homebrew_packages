@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+## homebrew_packages :: Homebrew :: Packages
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_214_homebrew_packages'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Checksum :: Brewfile
+readonly cr_checksum_brewfile="$HOME/.config/chezmoi/checksum/$cr_script_sn/brewfile"
+
+# Variable modification :: Brewfile
+readonly cr_source_brewfile="$HOME/.Brewfile"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence checksum file :: Brewfile
+if [[ -e "$cr_checksum_brewfile" ]]; then
+    # Validate :: Determine checksum :: Data entity
+    if [[ "$(LC_ALL=C shasum --algorithm 512256 --text "$cr_source_brewfile" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')" == "$(cat "$cr_checksum_brewfile")" ]]; then
+        # Action :: Graceful exit
+        exit 0
+    fi
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: Homebrew :: Install :: Packages
+brew bundle install --global || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: brew :: bundle install --global :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+# Action :: Homebrew :: Cleanup :: Prune :: Remove stale lock files and outdated downloads for all formulae and casks, and remove old versions of installed formulae
+brew cleanup --prune 0 || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: brew :: cleanup :: --prune 0 :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Postprocess :: Phase 0
+
+# Validate :: Existence directory :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+if [[ ! -d "$HOME/.config/chezmoi/checksum/$cr_script_sn" ]]; then
+    # Directory modification :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+    mkdir -v "$HOME/.config/chezmoi/checksum/$cr_script_sn"
+fi
+
+# File modification :: $cr_checksum_brewfile
+LC_ALL=C shasum --algorithm 512256 --text "$cr_source_brewfile" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$cr_checksum_brewfile" || {
+    # Notify :: Checksum failure
+    printf '%s\n' "FAIL :: shasum :: $cr_source_brewfile :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

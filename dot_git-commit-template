@@ -1,0 +1,32 @@
+
+# Git :: Conventional commits
+#
+#  - The HEADER is mandatory, scope is optional, subject is mandatory
+#      + <type>    Kind of change this commit is providing
+#                      * build (affect build system or external dependency)
+#                      * chore (maintenance change)
+#                      * ci (change to CI configuration file / script)
+#                      * docs (documentation)
+#                      * feat (new feature)
+#                      * fix (bug fix)
+#                      * function (improving functionality)
+#                      * perf (improving performance)
+#                      * refactor (change neither fixes bug nor adds a feature)
+#                      * style (white-space, formatting, missing semicolons, ...)
+#                      * test (correcting or missing test)
+#      + <scope>   Anything specifying the place of the commit change
+#      + <subject> Very short description of the change
+#                      * imperative, present tense: 'change' not 'changed'/'changes'
+#                      * no capitalised first letter
+#                      * no dot (.) at the end
+#
+#  - The BODY should include the motivation for the change in imperative present tense
+#  - The FOOTER should contain information about Breaking changes and/or references to issue #
+#
+#  - The message FORMAT
+#      <type>(<scope>): <subject>
+#      <BLANK LINE>
+#      <body>
+#      <BLANK LINE>
+#      <footer>
+#

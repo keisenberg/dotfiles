@@ -1,0 +1,80 @@
+## obfuscated1.tld.yml :: assh :: Include :: Hosts :: obfuscated1.tld
+
+
+#
+## Directives :: Hosts
+
+hosts:
+  "*.obfuscated1.tld":
+    # X11 connections will be automatically redirected over the secure channel and DISPLAY set
+    ForwardX11: yes
+    # Timeout for untrusted X11 forwarding, X11 connections received by ssh after this time will be refused, zero will disable the timeout and permit X11 forwarding for the life of the connection
+    ForwardX11Timeout: 0
+    # Remote X11 clients will have full access to the original X11 display
+    ForwardX11Trusted: yes
+    # Always request a TTY when standard input is a TTY
+    RequestTTY: yes
+    # Never automatically add host keys to the ~/.ssh/known_hosts file
+    StrictHostKeyChecking: no
+    # Specify file to use for the user host key database
+    UserKnownHostsFile: /dev/null
+
+  "gtw.nda.*.obfuscated1.tld":
+    # Port number to connect on the remote host
+    Port: 12345
+    # Specify the user to log in as
+    User: obfuscated
+
+  "swt-sg300-*.nda.*.br.obfuscated1.tld":
+    # Disable redirected X11 connections
+    ForwardX11: no
+    # Specify key exchange algorithm
+    KexAlgorithms: diffie-hellman-group-exchange-sha1
+
+  gtw.vpn.obfuscated1.tld:
+    # Port number to connect on the remote host
+    Port: 12345
+    # Specify the user to log in as
+    User: obfuscated
+
+  "host1*.str.*.br.obfuscated1.tld":
+    # Specify the user to log in as
+    User: obfuscated
+
+  "host2-*.dav.kpw.obfuscated1.tld":
+    # Disable redirected X11 connections
+    ForwardX11: no
+
+  host-a2n.hpv.kpw.obfuscated1.tld:
+    # Port number to connect on the remote host
+    Port: 12345
+    # Specify the user to log in as
+    User: obfuscated
+
+  host1.hst.vps.obfuscated1.tld:
+    # Port number to connect on the remote host
+    Port: 443
+    # Specify the user to log in as
+    User: keisenberg
+
+  host2.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host3.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host4.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host5.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host6.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host7.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w
+  host8.hst.vps.obfuscated1.tld:
+    # Inherit template(s)
+    Inherits: hook-beforeconnect-fwknop-a8w

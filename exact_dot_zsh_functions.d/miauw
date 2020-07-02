@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: miauw
+miauw() {
+    # Notify :: Confirming message
+    printf 'miauw\n'
+}
+
+# vi: filetype=zsh

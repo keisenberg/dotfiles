@@ -1,0 +1,20 @@
+## .zsh_plugins.txt :: antibody :: Plugins file
+
+
+#
+## Plugins :: Overview
+
+# Plugin :: fzf tab :: Replace Z shells default completion selection menu with fzf
+Aloxaf/fzf-tab
+
+# Plugin :: Fast syntax highlighting :: Feature rich syntax highlighting for Z shell
+zdharma/fast-syntax-highlighting
+
+# Plugin :: ZSH autosuggest :: Fish-like autosuggestions for Z shell
+zsh-users/zsh-autosuggestions
+
+# Plugin :: ZSH history substring search :: Fish-like autosuggestions for zsh
+zsh-users/zsh-history-substring-search
+
+# Plugin :: Chosen theme for Z shell
+romkatv/powerlevel10k

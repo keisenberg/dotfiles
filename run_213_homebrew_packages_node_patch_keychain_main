@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+## homebrew_packages_node_patch_keychain_main :: Homebrew :: Packages :: Node :: Patch :: Keychain :: Main
+
+#
+## Initialization :: Phase 0
+
+# Set :: Shell option :: Exit immediately if a pipeline returns a non-zero status
+set -e
+
+# Set :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_213_homebrew_packages_node_patch_keychain_main'
+
+# Variable modification :: Path :: Destination :: Patch file
+readonly cr_path_destination_pf='/usr/local/Cellar/keychain/2.8.5/bin/keychain'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Path :: Source :: Patch file
+readonly cr_path_source_pf="$HOME/.local/share/chezmoi/.data/$cr_script_sn/2.8.5/modified/keychain"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence :: Patch file :: Destination
+if [[ ! -e "$cr_path_destination_pf" ]]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Variable modification :: Checksum :: Source :: Patch file
+readonly cr_checksum_source_pf="$(LC_ALL=C shasum --algorithm 512256 --text "$cr_path_source_pf" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')"
+
+# Variable modification :: Checksum :: Destination :: Patch file
+readonly cr_checksum_destination_pf="$(LC_ALL=C shasum --algorithm 512256 --text "$cr_path_destination_pf" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')"
+
+# Validate :: Checksum :: Determine match
+if [[ "$cr_checksum_source_pf" = "$cr_checksum_destination_pf" ]]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# File modification :: $cr_path_destination_pf
+sudo cp "$cr_path_source_pf" "$cr_path_destination_pf" || {
+    # Notify :: Copy failure
+    printf '%s\n' "FAIL :: cp :: $cr_path_source_pf :: $cr_path_destination_pf :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+sudo chown -v "${USER:-root}":wheel "$cr_path_destination_pf" || {
+    # Notify :: chown failure
+    printf '%s\n' "FAIL :: chown :: $cr_path_destination_pf :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+sudo chmod -v 0555 "$cr_path_destination_pf" || {
+    # Notify :: chmod failure
+    printf '%s\n' "FAIL :: chmod :: $cr_path_destination_pf :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

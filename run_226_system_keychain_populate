@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+## system_keychain_populate :: System :: Keychain :: Populate
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_226_system_keychain_populate'
+
+# Variable modification :: Certificates :: Root
+readonly cr_certificates_root=(288cd6206cab2212ed828ee2e079593e29a728fc.pem 985de4923e97846555a39184895141ddae3cf7e3.pem)
+
+# Variable modification :: Certificates :: Intermediate
+readonly cr_certificates_intermediate=(d870df39e111668126bbdab33c165d21a724878e.pem)
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+# Variable modification :: Certificates :: Path
+readonly cr_certificates_path="$HOME/.cacerts"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Validate :: Determine existence of keychain database
+if [[ ! -e "$HOME/Library/Keychains/login.keychain-db" ]]; then
+    # Notify :: Missing keychain
+    printf '%s\n' "FAIL :: Missing keychain :: $HOME/Library/Keychains/login.keychain-db :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+fi
+
+#
+## Main :: Phase 0
+
+# Loop :: Array :: certificates list :: Root
+for cr_certificate_root in "${cr_certificates_root[@]}"; do
+    # Action :: Keychain :: Add certificate :: Root :: $cr_certificate_root
+    security add-trusted-cert -k "$HOME/Library/Keychains/login.keychain-db" -r trustRoot "$cr_certificates_path/$cr_certificate_root" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: security :: add-trusted-cert :: trustRoot :: $cr_certificates_path/$cr_certificate_root :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+done
+
+# Loop :: Array :: certificates list :: Intermediate
+for cr_certificate_intermediate in "${cr_certificates_intermediate[@]}"; do
+    # Action :: Keychain :: Add certificate :: Intermediate :: $cr_certificate_intermediate
+    security add-trusted-cert -k "$HOME/Library/Keychains/login.keychain-db" -r unspecified "$cr_certificates_path/$cr_certificate_intermediate" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: security :: add-trusted-cert :: trustAsRoot :: $cr_certificates_path/$cr_certificate_intermediate :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+done
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

@@ -1,0 +1,17 @@
+#
+## Directives :: Key unbindings :: alias
+
+# Unbindings
+unbind alias <space>
+
+unbind alias d
+unbind alias u
+
+
+# Bindings
+bind alias h  first-entry
+bind alias j  next-entry
+bind alias k  previous-entry
+bind alias l  last-entry
+
+# vi: filetype=neomuttrc

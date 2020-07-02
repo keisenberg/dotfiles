@@ -1,0 +1,21 @@
+#
+## Static functions
+
+# Function modification :: fzf_git_log_browse
+fzf_git_log_browse() {
+    # Validate :: Determine if working tree belongs to Git repository
+    if ! git rev-parse --is-inside-work-tree --quiet &>/dev/null; then
+        # Action :: Exit gracefully
+        return 0
+    fi
+
+    # Action :: Preview Git commits seletively
+    git lga --color=always "$@" |
+        fzf --ansi --bind 'ctrl-]:toggle-preview,enter:abort,q:abort' --exact --exit-0 --info=inline --layout=default --multi --no-height --preview-window right:65%:noborder \
+            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I@ sh -c 'git show --color=always @'"
+
+    # Action :: Exit gracefully
+    return 0
+}
+
+# vi: filetype=zsh

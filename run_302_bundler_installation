@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+## bundler_installation :: Bundler :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_302_bundler_completions'
+
+#
+## Preprocess :: Phase 0
+
+# Action :: Initialize Ruby environment
+eval "$(rbenv init -)"
+
+# Validate :: Determine successful previous installation of Bundler
+if ! gem env gempath | grep --extended-regexp "${USER:-NO_USER}.*${USER:-NO_USER}.*rbenv" --quiet; then
+    # Notify :: Improper environment initialization
+    printf '%s\n' "FAIL :: Ruby environment not properly initialized :: $(gem env gempath) :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Validate :: Determine successful previous installation of Bundler
+if [[ -e "$HOME/.rbenv/shims/bundle" ]]; then
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+# Validate :: Determine existence of gem binary
+if [[ ! -e "$HOME/.rbenv/shims/gem" ]]; then
+    # Notify :: Missing binary
+    printf '%s\n' "FAIL :: Missing binary :: $HOME/.rbenv/shims/gem :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: gem :: Install Bundler
+gem install bundler || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: gem :: install :: bundler :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+# Action :: gem :: Clean up old versions of installed gems
+gem cleanup || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: gem :: cleanup :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

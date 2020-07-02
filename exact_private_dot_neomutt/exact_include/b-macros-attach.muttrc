@@ -1,0 +1,9 @@
+#
+## Directives :: Macros :: attach
+
+# Macros
+macro attach c '<enter-command>set mailcap_path=~/.neomutt/extra/mailcap-cli<return><enter-command>echo "mailcap :: CLI"<enter>'
+macro attach g '<enter-command>set mailcap_path=~/.neomutt/extra/mailcap-gui<return><enter-command>echo "mailcap :: GUI"<enter>'
+macro attach s '<save-entry><kill-line>~/Downloads/<enter>a<enter>'
+
+# vi: filetype=neomuttrc

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+## url-finder-pane-fuzzy:: URL :: Finder :: Pane :: Fuzzy
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Pane capture :: Content
+readonly sr_pc_content="$(tmux capture-pane -J -p)"
+
+# Variable modification :: Content :: Common URL
+readonly sr_content_common_url="$(echo "$sr_pc_content" | grep --extended-regexp '(https?|ftp|file):/?//[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]' --only-matching | sort | uniq)"
+# Variable modification :: Content :: Git URL
+readonly sr_content_git_url="$(echo "$sr_pc_content" | grep --extended-regexp '(ssh://)?git@\S*' --only-matching | sed -e 's/:/\//g' | sed -e 's/^\(ssh\/\/\/\)\{0,1\}git@\(.*\)$/https:\/\/\2/' | sort | uniq)"
+# Variable modification :: Content :: IPv4 Address
+readonly sr_content_ipv4_address="$(echo "$sr_pc_content" | grep --extended-regexp '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]{1,5})?(/\S+)*' --only-matching | sed -e 's/^\(.*\)$/http:\/\/\1/' | sort | uniq)"
+# Variable modification :: Content :: Site URL
+readonly sr_content_site_url="$(echo "$sr_pc_content" | grep --extended-regexp 'www\.[a-zA-Z](-?[a-zA-Z0-9])+\.[a-zA-Z]{2,}(/\S+)*' --only-matching | sed -e 's/^\(.*\)$/http:\/\/\1/' | sort | uniq)"
+
+#
+## Initialization :: Functions :: Dynamic
+
+# Function modification :: fzf :: Command
+fzf_command() {
+    # Action :: Run command :: fzf-tmux
+    fzf-tmux --ansi --bind='ctrl-r:toggle-all' --bind='ctrl-s:toggle-sort' --bind=',:abort' --exact --exit-0 --inline-info --layout=default --multi --no-preview -p 55%,50% --reverse || { exit 0; }
+}
+
+# Function modification :: Content :: Merge
+content_merge() {
+    # Loop :: Content item(s)
+    for content_item in "${sr_content_common_url[@]}" "${sr_content_git_url[@]}" "${sr_content_ipv4_address[@]}" "${sr_content_site_url[@]}"; do
+        # Print :: Content item(s)
+        echo "$content_item"
+    done
+}
+
+#
+## Preprocess :: Phase 0
+
+# Conditional :: Validate positive count of merged content item(s)
+if [[ -z $(content_merge) ]]; then
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: Process merged content :: Allow fzf selected item to open in designated application
+content_merge | sed -e '/^$/d' | sort --unique | fzf_command | xargs -n 1 -I {} open {} &>/dev/null || true

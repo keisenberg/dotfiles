@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+## .zshrc :: Z shell run commands
+
+
+#
+## Z shell :: Run commands :: Includes
+
+# Variable modification :: Z shell :: Run commands :: Include files
+zsh_rc_if=($HOME/.zsh_run_commands.d/*.zshrc)
+
+# Validation :: Determine if number of run commands include files exceeds 0
+if [ ${#zsh_rc_if[@]} -gt 0 ]; then
+    # Action :: Loop over Z shell run commands include files
+    foreach zshrc (`echo ${zsh_rc_if[@]} | sort`)
+        # Action :: Include Z shell run commands include files
+        source "$zshrc"
+    end
+fi

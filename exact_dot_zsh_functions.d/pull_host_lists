@@ -1,0 +1,69 @@
+#
+## Initialization :: Variables :: Static
+
+# shellcheck disable=SC2168
+
+# Variable modification :: Function :: Short name
+local -r fr_function_sn='pull_host_lists'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Source :: Static lists :: Directory
+local -r fr_source_sl_directory="$HOME/.zsh_functions.d/pull_host_lists.d"
+
+# Variable modification :: Destination :: Host lists :: Directory
+local -r fr_destination_hl_directory="$HOME/.cache/zsh_functions/pull_host_lists"
+
+# Variable modification :: Concatenated host list :: Path
+local -r fr_chl_path="$fr_destination_hl_directory/concatenated.list"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence directory :: Static lists :: Source
+if [[ ! -d "$fr_source_sl_directory" ]]; then
+    # Notify :: Missing directory
+    printf '%s\n' "FAIL :: Missing directory :: $fr_source_sl_directory :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+fi
+
+# Validate :: Existence directory :: Host lists :: Destination
+if [[ ! -d "$fr_destination_hl_directory" ]]; then
+    # Directory modification :: $fr_destination_hl_directory
+    mkdir -p -v "$fr_destination_hl_directory" || {
+        # Notify :: mkdir failure
+        printf '%s\n' "FAIL :: mkdir :: $fr_destination_hl_directory :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Action :: Synchronize directories
+rsync --checksum --delete --group --owner --quiet --recursive "$fr_source_sl_directory/" "$fr_destination_hl_directory" || {
+    # Notify :: rsync failure
+    printf '%s\n' "FAIL :: rsync :: $fr_source_sl_directory/ :: $fr_destination_hl_directory :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+}
+
+#
+## Main :: Phase 0
+
+# File modification :: $fr_chl_path :: Create concatenated list of all list files content
+find -E "$fr_destination_hl_directory" -type f -regex '.*-(dynamic|static).list' -exec cat {} \; | sort --unique >"$fr_chl_path" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: find-sort :: $fr_destination_hl_directory :: $fr_chl_path :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+}
+
+# vi: filetype=zsh

@@ -1,0 +1,37 @@
+#
+## Static functions
+
+# Function modification :: fzf_git_stash_selective
+fzf_git_stash_selective() {
+    # Validate :: Determine if working tree belongs to Git repository
+    if ! git rev-parse --is-inside-work-tree --quiet &>/dev/null; then
+        # Action :: Exit gracefully
+        return 0
+    fi
+
+    # Validate :: Ensure Git repository is dirty before continuing
+    if [[ -z "$(git status --short)" ]]; then
+        # Action :: Exit gracefully
+        return 0
+    fi
+
+    # Variable modification :: local :: git_stash_selections
+    # shellcheck disable=SC2155
+    local git_stash_selections=$(
+        git status --porcelain |
+            fzf --ansi --bind 'ctrl-o:toggle,ctrl-s:toggle-all,q:abort' --exact --exit-0 --inline-info --layout=default --multi --no-height --preview-window right:65%:noborder \
+                --preview 'if (git ls-files --error-unmatch {2} &>/dev/null); then
+                                 git diff --color=always {2}
+                             else
+                                 bat --style=changes,numbers,snip --wrap=never {2}
+                             fi'
+    )
+
+    # Validation :: Determine if unstashed items have been selected
+    if [[ -n $git_stash_selections ]]; then
+        # shellcheck disable=SC2046
+        git add --verbose $(echo "$git_stash_selections" | cut -c 4- | tr '\n' ' ')
+    fi
+}
+
+# vi: filetype=zsh

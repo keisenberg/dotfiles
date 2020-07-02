@@ -1,0 +1,209 @@
+## .mbsyncrc :: mbsync :: Configuration file
+
+
+#
+## Directives :: Global options
+
+# Per-Channel, per-direction instantaneous memory usage above which mbsync will refrain from using more memory
+BufferLimit 100M
+
+
+#
+## Directives :: Mailbox :: obfuscated-keisenberg-k2e
+
+# Directives :: Maildir Stores :: obfuscated-keisenberg-k2e-l
+MaildirStore       obfuscated-keisenberg-k2e-l
+Path               ~/.mail/obfuscated-keisenberg-k2e/
+Inbox              ~/.mail/obfuscated-keisenberg-k2e/INBOX
+SubFolders         Verbatim
+Flatten            .
+
+
+# Directives :: IMAP4 Accounts :: obfuscated-keisenberg-k2e-r
+IMAPAccount        obfuscated-keisenberg-k2e-r
+Host               host.obfuscated.tld
+Port               143
+Timeout            20
+PipelineDepth      1
+User               keisenberg@obfuscated.tld
+PassCmd            "gpg --decrypt ~/.mbsync/imap-account-obfuscated-keisenberg-k2e-r-pass.gpg"
+AuthMechs          PLAIN
+SSLType            STARTTLS
+SSLVersions        TLSv1.2
+SystemCertificates yes
+
+
+# Directives :: IMAP Stores :: obfuscated-keisenberg-k2e-r
+IMAPStore          obfuscated-keisenberg-k2e-r
+Account            obfuscated-keisenberg-k2e-r
+
+
+# Directives :: Channels :: obfuscated-keisenberg-k2e-full-*
+Channel            obfuscated-keisenberg-k2e-full-inbox
+Master             :obfuscated-keisenberg-k2e-r:INBOX
+Slave              :obfuscated-keisenberg-k2e-l:INBOX
+Patterns           *
+
+Channel            obfuscated-keisenberg-k2e-full-sent
+Master             :obfuscated-keisenberg-k2e-r:Sent
+Slave              :obfuscated-keisenberg-k2e-l:Sent
+Patterns           *
+
+Channel            obfuscated-keisenberg-k2e-full-drafts
+Master             :obfuscated-keisenberg-k2e-r:Drafts
+Slave              :obfuscated-keisenberg-k2e-l:Drafts
+Patterns           *
+
+Channel            obfuscated-keisenberg-k2e-full-archive
+Master             :obfuscated-keisenberg-k2e-r:Archive
+Slave              :obfuscated-keisenberg-k2e-l:Archive
+Patterns           *
+
+Channel            obfuscated-keisenberg-k2e-full-junk
+Master             :obfuscated-keisenberg-k2e-r:Junk
+Slave              :obfuscated-keisenberg-k2e-l:Junk
+Patterns           *
+
+Channel            obfuscated-keisenberg-k2e-full-trash
+Master             :obfuscated-keisenberg-k2e-r:Trash
+Slave              :obfuscated-keisenberg-k2e-l:Trash
+Patterns           *
+
+Create             Both
+Expunge            Both
+Remove             Both
+SyncState          *
+
+# Directives :: Channels :: obfuscated-keisenberg-k2e-quick-*
+Channel            obfuscated-keisenberg-k2e-quick-inbox
+Master             :obfuscated-keisenberg-k2e-r:INBOX
+Slave              :obfuscated-keisenberg-k2e-l:INBOX
+
+Channel            obfuscated-keisenberg-k2e-quick-sent
+Master             :obfuscated-keisenberg-k2e-r:Sent
+Slave              :obfuscated-keisenberg-k2e-l:Sent
+
+Create             Both
+Expunge            Both
+Remove             Both
+SyncState          *
+
+
+# Directives :: Groups :: obfuscated-keisenberg-k2e-full
+Group              obfuscated-keisenberg-k2e-full
+Channel            obfuscated-keisenberg-k2e-full-inbox
+Channel            obfuscated-keisenberg-k2e-full-sent
+Channel            obfuscated-keisenberg-k2e-full-drafts
+Channel            obfuscated-keisenberg-k2e-full-archive
+Channel            obfuscated-keisenberg-k2e-full-junk
+Channel            obfuscated-keisenberg-k2e-full-trash
+
+# Directives :: Groups :: obfuscated-keisenberg-k2e-quick
+Group              obfuscated-keisenberg-k2e-quick
+Channel            obfuscated-keisenberg-k2e-quick-inbox
+Channel            obfuscated-keisenberg-k2e-quick-sent
+Channel            obfuscated-keisenberg-k2e-full-drafts
+Channel            obfuscated-keisenberg-k2e-full-archive
+Channel            obfuscated-keisenberg-k2e-full-junk
+Channel            obfuscated-keisenberg-k2e-full-trash
+
+
+#
+## Directives :: Mailbox :: smp-10510-g8f
+
+# Directives :: Maildir Stores :: smp-10510-g8f-l
+MaildirStore       smp-10510-g8f-l
+Path               ~/.mail/smp-10510-g8f/
+Inbox              ~/.mail/smp-10510-g8f/INBOX
+SubFolders         Verbatim
+Flatten            .
+
+
+# Directives :: IMAP4 Accounts :: smp-10510-g8f-r
+IMAPAccount        smp-10510-g8f-r
+Host               host.obfuscated.tld
+Port               993
+Timeout            20
+PipelineDepth      1
+User               10510
+PassCmd            "gpg --decrypt ~/.mbsync/imap-account-smp-10510-g8f-r-pass.gpg"
+AuthMechs          PLAIN
+SSLType            IMAPS
+SSLVersions        TLSv1.2
+SystemCertificates no
+CertificateFile    ~/.cacerts/6a96632887bb756db436c5a0fd651a3b816c15de.pem
+
+
+# Directives :: IMAP Stores :: smp-10510-g8f-r
+IMAPStore          smp-10510-g8f-r
+Account            smp-10510-g8f-r
+
+
+# Directives :: Channels :: smp-10510-g8f-full-*
+Channel            smp-10510-g8f-full-inbox
+Master             :smp-10510-g8f-r:INBOX
+Slave              :smp-10510-g8f-l:INBOX
+Patterns           *
+
+Channel            smp-10510-g8f-full-sent
+Master             :smp-10510-g8f-r:Sent
+Slave              :smp-10510-g8f-l:Sent
+Patterns           *
+
+Channel            smp-10510-g8f-full-drafts
+Master             :smp-10510-g8f-r:Drafts
+Slave              :smp-10510-g8f-l:Drafts
+Patterns           *
+
+Channel            smp-10510-g8f-full-archive
+Master             :smp-10510-g8f-r:Archive
+Slave              :smp-10510-g8f-l:Archive
+Patterns           *
+
+Channel            smp-10510-g8f-full-junk
+Master             :smp-10510-g8f-r:Junk
+Slave              :smp-10510-g8f-l:Junk
+Patterns           *
+
+Channel            smp-10510-g8f-full-trash
+Master             :smp-10510-g8f-r:Trash
+Slave              :smp-10510-g8f-l:Trash
+Patterns           *
+
+Create             Both
+Expunge            Both
+Remove             Both
+SyncState          *
+
+# Directives :: Channels :: smp-10510-g8f-quick-*
+Channel            smp-10510-g8f-quick-inbox
+Master             :smp-10510-g8f-r:INBOX
+Slave              :smp-10510-g8f-l:INBOX
+
+Channel            smp-10510-g8f-quick-sent
+Master             :smp-10510-g8f-r:Sent
+Slave              :smp-10510-g8f-l:Sent
+
+Create             Both
+Expunge            Both
+Remove             Both
+SyncState          *
+
+
+# Directives :: Groups :: smp-10510-g8f-full
+Group              smp-10510-g8f-full
+Channel            smp-10510-g8f-full-inbox
+Channel            smp-10510-g8f-full-sent
+Channel            smp-10510-g8f-full-drafts
+Channel            smp-10510-g8f-full-archive
+Channel            smp-10510-g8f-full-junk
+Channel            smp-10510-g8f-full-trash
+
+# Directives :: Groups :: smp-10510-g8f-quick
+Group              smp-10510-g8f-quick
+Channel            smp-10510-g8f-quick-inbox
+Channel            smp-10510-g8f-quick-sent
+Channel            smp-10510-g8f-full-drafts
+Channel            smp-10510-g8f-full-archive
+Channel            smp-10510-g8f-full-junk
+Channel            smp-10510-g8f-full-trash

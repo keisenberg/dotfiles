@@ -1,0 +1,7 @@
+#
+## Directives :: Key unbindings :: editor
+
+# Bindings
+bind editor <space> noop
+
+# vi: filetype=neomuttrc

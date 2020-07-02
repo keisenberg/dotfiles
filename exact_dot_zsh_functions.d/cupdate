@@ -1,0 +1,19 @@
+#
+## Static functions
+
+# Function modification :: cupdate
+cupdate() {
+    # Validation :: Determine if the destination state matches the target state
+    if ! chezmoi verify; then
+        # Notify :: Failure
+        printf 'FAIL :: chezmoi verify :: Target state does not match destination state :: Resolve before retrying\n'
+
+        # Circuit breaker :: Return if target state does not match destination state
+        return 0
+    fi
+
+    # Action :: chezmoi :: update :: Pull changes from the source VCS and apply any changes
+    chezmoi update
+}
+
+# vi: filetype=zsh

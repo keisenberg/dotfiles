@@ -1,0 +1,10 @@
+#
+## Directives :: Key unbindings :: postpone
+
+# Bindings
+bind postpone h  first-entry
+bind postpone j  next-entry
+bind postpone k  previous-entry
+bind postpone l  last-entry
+
+# vi: filetype=neomuttrc

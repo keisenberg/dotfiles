@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: woef
+woef() {
+    # Notify :: Confirming message
+    printf 'woef\n'
+}
+
+# vi: filetype=zsh

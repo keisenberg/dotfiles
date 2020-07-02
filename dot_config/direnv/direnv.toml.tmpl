@@ -1,0 +1,21 @@
+## direnv.toml :: direnv configuration file
+
+
+#
+## Section :: Global
+
+[global]
+# Load .envrc with set -euo pipefail
+strict_env = true
+# Specify how long to wait before warning the user that the command is taking too long to execute
+warn_timeout = "3s"
+
+
+#
+## Section :: Whitelist
+
+[whitelist]
+# Array of strings specifying recursive paths in which .envrc files are implicitly allowed regardless of contents or past usage of direnv allow or direnv deny
+exact = [ "{{ .chezmoi.homedir }}/Transitory/obfuscated-k2n/.envrc", "{{ .chezmoi.homedir }}/Transitory/obfuscated-k2n/work/obfuscated-28a1fb92/.envrc" ]
+
+# vi: filetype=toml

@@ -1,0 +1,88 @@
+## .Brewfile-user :: brew.sh :: Brewfile :: User :: A gemfile but for Homebrew
+
+
+# User :: Casks
+cask 'apache-directory-studio'
+cask 'avidemux'
+cask 'bartender'
+cask 'balenaEtcher'
+cask 'beardedspice'
+cask 'bitbar'
+cask 'devonthink'
+cask 'docker'
+cask 'enpass'
+cask 'expressions'
+cask 'firefox'
+cask 'flux'
+cask 'folx'
+cask 'font-dejavusansmono-nerd-font'
+cask 'font-fantasque-sans-mono'
+cask 'font-fira-code'
+cask 'font-fira-mono'
+cask 'font-fontawesome'
+cask 'font-hack'
+cask 'font-meslolg-nerd-font'
+cask 'font-saucecodepro-nerd-font'
+cask 'font-source-code-pro'
+cask 'forklift'
+cask 'geotag'
+cask 'google-chrome'
+cask 'hazeover'
+cask 'insomnia'
+cask 'intel-power-gadget'
+cask 'istat-menus'
+cask 'iterm2'
+cask 'java'
+cask 'jitsi-meet'
+cask 'ledger-live'
+cask 'little-snitch'
+cask 'micro-snitch'
+cask 'microsoft-teams'
+cask 'musicbrainz-picard'
+cask 'mweb'
+cask 'nextcloud'
+cask 'numi'
+cask 'osxfuse'
+cask 'pdftotext'
+cask 'postbox'
+cask 'raindropio'
+cask 'rocket-chat'
+cask 'serial'
+cask 'signal'
+cask 'skype'
+cask 'slack'
+cask 'spotify'
+cask 'spotmenu'
+cask 'stay'
+cask 'teamviewer'
+cask 'the-unarchiver'
+cask 'tor-browser'
+cask 'tripmode'
+cask 'veracrypt'
+cask 'viscosity'
+cask 'visual-studio-code'
+cask 'vmware-fusion'
+cask 'webex-meetings'
+cask 'wifi-explorer'
+cask 'whatsapp'
+cask 'wireshark'
+cask 'xpra'
+cask 'xquartz'
+cask 'yed'
+cask 'zoomus'
+
+# User :: Mac App Store
+mas 'Amphetamine', id: 937984704
+mas 'Apple Configurator 2', id: 1037126344
+mas 'Fantastical - Calendar & Tasks', id: 975937182
+mas 'Magnet', id: 441258766
+mas 'Marked 2 - Markdown Preview', id: 890031187
+mas 'Net Radar', id: 1036406076
+mas 'OmniFocus', id: 1346203938
+mas 'Paste - Clipboard Manager', id: 967805235
+mas 'Pocket', id: 568494494
+mas 'ReadKit', id: 588726889
+mas 'SnippetsLab', id: 1006087419
+mas 'VMware Remote Console', id: 1230249825
+mas 'Weatherly', id: 1499228739
+mas 'Xcode', id: 497799835

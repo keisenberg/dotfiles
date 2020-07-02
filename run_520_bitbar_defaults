@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+## bitbar_defaults :: BitBar :: Defaults
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_520_bitbar_defaults'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_pd_static="$HOME/.config/bitbar"
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Variable modification :: Plugins Directory :: Dynamic
+readonly cr_pd_dynamic="$(defaults read com.matryer.bitbar pluginsDirectory 2>/dev/null)"
+
+#
+## Main :: Phase 0
+
+# Validate :: Value of plugins directory
+if [[ "${cr_pd_dynamic:-NO_PLUGINS_DIRECTORY_DYNAMIC}" != "${cr_pd_static:-NO_PLUGINS_DIRECTORY_STATIC}" ]]; then
+    # Action :: defaults :: Specify pluginsDirectory
+    defaults write com.matryer.bitbar pluginsDirectory "${cr_pd_static:-NO_PLUGINS_DIRECTORY_STATIC}" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: defaults :: write com.matryer.bitbar pluginsDirectory :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 0
+    }
+
+    # Validate :: existence of running BitBar process
+    if pgrep -q 'BitBar'; then
+        # Action :: Kill all BitBar processes
+        killall BitBar
+
+        # Action :: Launch BitBar
+        open -a 'BitBar' -g
+    fi
+fi
+
+#
+## Main :: Phase 1
+
+# Validate :: Determine state :: Success
+if [[ -e "$cr_state_success" ]]; then
+    # Validate :: Determine existence of checksum file && existence of running BitBar process
+    if [[ -e "$HOME/.cache/bitbar/checksum" ]] && pgrep -q 'BitBar'; then
+        # Validate :: Determine checksum :: Directory contents
+        if [[ "$(LC_ALL=C tar --create --file - --absolute-paths "${cr_pd_static:-NO_PLUGINS_DIRECTORY_STATIC}" | shasum --algorithm 512256 --text | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')" != "$(cat "$HOME/.cache/bitbar/checksum")" ]]; then
+            # Action :: Kill all BitBar processes
+            killall BitBar
+
+            # Action :: Launch BitBar
+            open -a 'BitBar' -g
+
+            # File modification :: $HOME/.cache/bitbar/checksum
+            tar --create --file - --absolute-paths "${cr_pd_static:-NO_PLUGINS_DIRECTORY_STATIC}" | shasum --algorithm 512256 --text | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$HOME/.cache/bitbar/checksum" || { printf '%s\n' "FAIL :: tar-shasum-sed :: $cr_script_sn/$LINENO"; }
+        fi
+    fi
+
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Postprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [[ ! -e "$cr_state_success" ]]; then
+    # File modification :: $HOME/.cache/bitbar/checksum
+    tar --create --file - --absolute-paths "${cr_pd_static:-NO_PLUGINS_DIRECTORY_STATIC}" | shasum --algorithm 512256 --text | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$HOME/.cache/bitbar/checksum" || { printf '%s\n' "FAIL :: tar-shasum-sed :: $cr_script_sn/$LINENO"; }
+fi
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

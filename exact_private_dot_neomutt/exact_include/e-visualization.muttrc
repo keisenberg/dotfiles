@@ -1,0 +1,94 @@
+#
+## Directives :: Visualization :: Body
+
+# Define an order of preference that is used by NeoMutt to determine which part of a multipart/alternative body to display
+alternative_order text/html text/enriched text/plain
+
+
+#
+## Directives :: Visualization :: General
+
+# Menus will be scrolled up or down one line when you attempt to move across a screen boundary
+set menu_scroll = yes
+
+
+#
+## Directives :: Visualization :: Index
+
+# Format of the date printed by the "%d" sequence in $index_format
+set date_format = '!%a, %d/%b/%Y, %H:%M:%S'
+
+# Do not print specified tags on screen
+set hidden_tags = 'unread,draft,flagged,passed,replied,signed,encrypted'
+
+# Message index display customization
+set index_format = '%Z :: %-30.30F %s %* %?g?(%g) :: & ? %D :: [%-4.4c]'
+
+# Specifies how to sort messages in the "index" menu
+set sort = 'reverse-threads'
+
+
+#
+## Directives :: Visualization :: Pager
+
+# Specify that NeoMutt should automatically convert the given mime-types to text/plain when displaying messages (there must be a mailcap entry for the given mime-type with the copiousoutput option set)
+auto_view application/ics application/pgp-encrypted
+auto_view text/html text/calendar
+
+# Ignore all headers, initially
+ignore *
+
+# Include explictly defined headers
+unignore X-mailer User-Agent bcc cc date from subject to
+
+# Clear all previous headers from the order list, thus removing the header order effects set by the system-wide startup file
+unhdr_order *
+
+# Set sorting of displayed headers
+hdr_order date from to cc bcc subject X-mailer User-Agent
+
+# Do not set markers at the beginning of wrapped lines
+set markers = no
+
+# Number of lines of context that are given when displaying the next or previous page in the internal pager
+set pager_context = 3
+
+# Number of lines of a mini-index which is shown when in the pager
+set pager_index_lines = 15
+
+# Do not move to the next message when at the end of a message and invoking the <next-page> function
+set pager_stop = yes
+
+# Pad blank lines to the bottom of the screen with a tilde
+set tilde = yes
+
+
+#
+## Directives :: Visualization :: Sidebar
+
+# Customize the sidebar display
+set sidebar_format = "%B%* %?N?%N/?%?S?%S? "
+
+# Show sidebar
+set sidebar_visible = yes
+
+
+#
+## Directives :: Visualization :: Threads
+
+# NeoMutt will collapse all threads when entering a folder
+set collapse_all = yes
+
+# Do not collapse a thread if it contains any flagged message
+set collapse_flagged = no
+
+# Do not collapse a thread if it contains any unread message
+set collapse_unread = no
+
+# Make the thread tree narrower, allowing deeper threads to fit on the screen
+set narrow_tree = yes
+
+# Ensure threading will only make use of the "In-Reply-To" and "References" fields when $sorting by message threads
+set strict_threads = yes
+
+# vi: filetype=neomuttrc

@@ -1,0 +1,14 @@
+#
+## Static functions
+
+# Function modification :: bash_test_load_time
+bash_test_load_time() {
+    # Loop :: Time interactive GNU Bash initializations
+    # shellcheck disable=SC2034
+    for sequence in $(seq 1 15); do
+        # Action :: Start GNU Bash login shell
+        /usr/bin/time bash --login -c exit
+    done
+}
+
+# vi: filetype=zsh

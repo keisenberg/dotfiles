@@ -1,0 +1,26 @@
+#
+## Directives :: Macros :: pager
+
+# Macros
+macro pager <tab>   '<sync-mailbox><check-stats>'
+macro pager <space> ':source ~/.neomutt/contrib/mailbox-listing-fuzzy|<return>'
+
+macro pager 0       '<enter-command>set my_pdsave=$pipe_decode<enter><enter-command> unset pipe_decode<enter><pipe-message>extract_url<enter><enter-command>set pipe_decode=$my_pdsave<enter>'
+macro pager 1       '<change-vfolder>notmuch://?query=folder:INBOX<enter>'
+macro pager 2       '<change-vfolder>notmuch://?query=folder:Drafts<enter>'
+macro pager 3       '<change-vfolder>notmuch://?query=folder:Sent<enter>'
+macro pager 4       '<change-vfolder>notmuch://?query=folder:Archive<enter>'
+macro pager 5       '<change-vfolder>notmuch://?query=folder:Junk<enter>'
+macro pager 6       '<change-vfolder>notmuch://?query=folder:Trash<enter>'
+
+macro pager S       '<sync-mailbox><shell-escape>sleep 0.1<return><shell-escape>mbsync -Z $my_mailbox-full<return><check-stats>'
+
+macro pager cs      '<compose-to-sender><enter>'
+macro pager d       '<delete-message><return>'
+macro pager ma      ':source ~/.neomutt/contrib/message-save-archive|<return>'
+macro pager mf      ':source ~/.neomutt/contrib/message-move-fuzzy|<return>'
+macro pager mi      ':source ~/.neomutt/contrib/message-save-inbox|<return>'
+macro pager s       '<sync-mailbox><shell-escape>sleep 0.1<return><shell-escape>mbsync -Z $my_mailbox-quick<return><check-stats>'
+macro pager u       '<undelete-message><return>'
+
+# vi: filetype=neomuttrc

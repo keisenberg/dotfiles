@@ -1,0 +1,14 @@
+#
+## Static functions
+
+# Function modification :: zsh_test_load_time
+zsh_test_load_time() {
+    # Loop :: Time interactive Z shell initializations
+    # shellcheck disable=SC2034
+    for sequence in $(seq 1 15); do
+        # Action :: Start interactive Z shell
+        /usr/bin/time zsh --interactive -c exit
+    done
+}
+
+# vi: filetype=zsh

@@ -1,0 +1,28 @@
+#
+## Static functions
+
+# Function modification :: dummy_echo_helper
+dummy_echo_helper () {
+    printf 'Output :: Dummy'
+}
+
+# Function modification :: dummy_echo
+dummy_echo () {
+    printf '%s\n' "$(dummy_echo_helper)"
+}
+
+
+#
+## Preprocess :: Phase 0
+
+# Action :: NOOP
+:
+
+
+#
+## Main :: Phase 0
+
+# Function :: dummy_echo
+dummy_echo
+
+# vi: filetype=zsh

@@ -1,0 +1,3 @@
+alias zshrc='foreach zsh_run_command (echo $HOME/.zsh_run_commands.d/*.zshrc); /bin/cat $zsh_run_command; printf "\n\n"; end | bat -l zsh'
+
+# vi: filetype=zsh

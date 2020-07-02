@@ -1,0 +1,11 @@
+# Validation :: Determine if SSH identity file is available
+if [[ -f '/Volumes/cryptic-a4f/ssh/obfuscated.tld/user/obfuscated/ed25519-f7dc8c1a/identity' ]]; then
+    # Variable modification :: GIT_SSH_COMMAND
+    export GIT_SSH_COMMAND='ssh -o ControlPath=none -o IdentitiesOnly=yes -o IdentityFile=/Volumes/cryptic-a4f/ssh/obfuscated.tld/user/obfuscated/ed25519-f7dc8c1a/identity -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+else
+    # Notify :: Identity file unavailable
+    printf 'FAIL :: Identity file unavailable :: /Volumes/cryptic-a4f/ssh/obfuscated.tld/user/obfuscated/ed25519-f7dc8c1a/identity\n'
+fi
+
+# Variable modification :: PATH
+export PATH="$(pwd)/.bin:$PATH"

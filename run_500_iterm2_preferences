@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+## iterm2_preferences :: iTerm2 :: Preferences
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_500_iterm2_preferences'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Checksum :: iTerm2 :: Preferences
+readonly cr_checksum_iterm2_preferences="$HOME/.config/chezmoi/checksum/$cr_script_sn/com.googlecode.iterm2.plist"
+
+# Variable modification :: Target :: iTerm2 :: Preferences
+readonly cr_target_iterm2_preferences="$HOME/.local/share/chezmoi/.data/$cr_script_sn/com.googlecode.iterm2.plist-presets_yes"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence checksum file :: ForkLift :: Favorites
+if [[ -e "$cr_checksum_iterm2_preferences" ]]; then
+    # Validate :: Determine checksum :: Data entity
+    if [[ "$(LC_ALL=C shasum --algorithm 512256 --text "$cr_target_iterm2_preferences" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')" = "$(cat "$cr_checksum_iterm2_preferences")" ]]; then
+        # Action :: Graceful exit
+        exit 0
+    fi
+fi
+
+#
+## Main :: Phase 0
+
+# File modification :: $HOME/.config/iterm2/com.googlecode.iterm2.plist
+cp -v "$cr_target_iterm2_preferences" "$HOME/.config/iterm2/com.googlecode.iterm2.plist" || {
+    # Notify :: Copy failure
+    printf '%s\n' "FAIL :: cp :: $cr_target_iterm2_preferences :: $HOME/.config/iterm2/com.googlecode.iterm2.plist :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Postprocess :: Phase 0
+
+# Action :: iTerm2 :: Specify preferences folder
+defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$HOME/.config/iterm2"
+
+# Action :: iTerm2 :: Enable custom preferences folder
+defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+
+#
+## Postprocess :: Phase 1
+
+# Validate :: Existence directory :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+if [[ ! -d "$HOME/.config/chezmoi/checksum/$cr_script_sn" ]]; then
+    # Directory modification :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+    mkdir -v "$HOME/.config/chezmoi/checksum/$cr_script_sn"
+fi
+
+# File modification :: $cr_checksum_iterm2_preferences
+LC_ALL=C shasum --algorithm 512256 --text "$cr_target_iterm2_preferences" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$cr_checksum_iterm2_preferences" || {
+    # Notify :: Checksum failure
+    printf '%s\n' "FAIL :: shasum :: $cr_target_iterm2_preferences :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

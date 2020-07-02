@@ -1,0 +1,14 @@
+## config :: bat :: Configuration
+
+
+#
+## Directives :: Visualization
+
+# Always use coloring
+--color=always
+
+# Set specified color theme for syntax highlighting
+--theme="Solarized (dark)"
+
+# Do not wrap text despite of terminal width
+--wrap=never

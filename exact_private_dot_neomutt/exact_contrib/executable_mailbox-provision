@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+## mailbox-provision :: Mailbox :: Provision
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Mailbox :: List
+readonly sr_mailbox_list="$(fd . "$HOME/.mail" --max-depth 1 --type d --exec echo \{/\} 2>/dev/null)" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: fd :: $HOME/.mail :: $LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Main :: Phase 0
+
+# Loop :: Iterate over list of mailbox(es)
+for mailbox in $sr_mailbox_list; do
+    # Validate :: Mailbox state :: Unprovisioned
+    if [[ -d "$HOME/.mail/$mailbox" ]] && [[ ! -d "$HOME/.mail/$mailbox/INBOX" ]]; then
+        # Validate :: mbsync :: Presence synchronization group :: quick
+        if [[ -e "$HOME/.mbsyncrc" ]] && grep --quiet --extended-regexp "^Group\s+$mailbox-quick$" "$HOME/.mbsyncrc"; then
+            # Action :: mbsync :: Synchronize email
+            mbsync -Z "$mailbox-quick"
+        fi
+
+        # Validate :: notmuch :: presence primary configuration
+        if [[ -e "$HOME/.notmuch/$mailbox.config" ]]; then
+            # Action :: notmuch :: Import messages to the database
+            notmuch --config="$HOME/.notmuch/$mailbox.config" new --quiet
+
+            # Validate :: notmuch :: presence tag configuration
+            if [[ -e "$HOME/.notmuch/$mailbox.tags" ]]; then
+                # Action :: notmuch :: Add/remove tags for all messages matching the search terms
+                notmuch --config="$HOME/.notmuch/$mailbox.config" tag --batch --input="$HOME/.notmuch/$mailbox.tags"
+            fi
+        fi
+    fi
+
+    # Variable modification :: mailbox
+    unset mailbox
+done

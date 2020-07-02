@@ -1,0 +1,25 @@
+#
+## Directives :: Internals
+
+# Messages marked for deleting will automatically be purged without prompting
+set delete = yes
+
+# Specify the header cache backend
+set header_cache_backend = 'lmdb'
+
+# Configure how often (in seconds) NeoMutt should look for new mail
+set mail_check = 0
+
+# Configure how often (in seconds) NeoMutt will update message counts
+set mail_check_stats_interval = 0
+
+# Specify default mailbox type used when creating new folders
+set mbox_type = 'Maildir'
+
+# NeoMutt will decode RFC2047-encoded MIME parameters
+set rfc2047_parameters = yes
+
+# Use the first defined virtual mailbox
+set virtual_spoolfile = yes
+
+# vi: filetype=neomuttrc

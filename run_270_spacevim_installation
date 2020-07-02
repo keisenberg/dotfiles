@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+## spacevim_installation :: SpaceVim :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_270_spacevim_installation'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence directory
+if [[ ! -d "$HOME/.SpaceVim" ]]; then
+    # Action :: git :: Clone repository
+    git clone https://github.com/SpaceVim/SpaceVim.git "$HOME/.SpaceVim" || {
+        # Notify :: Git clone failure
+        printf '%s\n' "FAIL :: git :: clone :: https://github.com/SpaceVim/SpaceVim.git :: $HOME/SpaceVim :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+# Validate :: Existence directory
+if [[ ! -d "$HOME/.cache/vimfilies/repos/github.com/Shougo/dein.vim" ]]; then
+    # Action :: git :: Clone repository
+    git clone https://github.com/Shougo/dein.vim.git "$HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim" || {
+        # Notify :: Git clone failure
+        printf '%s\n' "FAIL :: git :: clone :: https://github.com/Shougo/dein.vim.git :: $HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Main :: Phase 1
+
+# Validate :: Existence symlink
+if [[ ! -L "$HOME/.vim" ]]; then
+    # File modification :: $HOME/.vim
+    ln -f -s -v "$HOME/.SpaceVim" "$HOME/.vim" || {
+        # Notify :: Symlink failure
+        printf '%s\n' "FAIL :: ln :: $HOME/.SpaceVim :: $HOME/.vim :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Main :: Phase 2
+
+# Action :: Vim :: Install plugins
+vim -n -c 'set nomore' '+call dein#install()' +qall || {
+    # Notify :: Symlink failure
+    printf '%s\n' "FAIL :: ln :: $HOME/.SpaceVim :: $HOME/.vim :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+# Action :: Plugin :: vim-clap :: make maple
+(cd "$HOME/.cache/vimfiles/repos/github.com/liuchengxu/vim-clap" && make maple && cp -a -v ./target/release/maple ./bin)
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

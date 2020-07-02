@@ -1,0 +1,20 @@
+## hook-beforeconnect-fwknop-a8w.yml :: assh :: Include :: Templates :: Hook :: BeforeConnect :: FWKNOP :: a8w
+
+
+#
+## Directives :: Templates
+
+templates:
+  hook-beforeconnect-fwknop-a8w:
+    # Port number to connect on the remote host
+    Port: 12345
+    # Specify the user to log in as
+    User: obfuscated
+    # Custom hooks
+    Hooks:
+      # Trigger single packet authorization for endpoint to open up OpenSSH TCP port
+      BeforeConnect:
+        # Send single authorization packet to remote endpoint
+        - 'exec fwknop --access="tcp/12345" --destination={{.Host.HostName}} --spoof-user=obfuscated'
+        # Allow remote endpoint processing firewall rules
+        - 'exec sleep 1'

@@ -1,0 +1,77 @@
+#
+## Directives :: Key unbindings :: compose
+
+# Unbindings
+unbind compose \CB
+unbind compose \CD
+unbind compose \CE
+unbind compose \CF
+unbind compose \CL
+unbind compose \CO
+unbind compose \CT
+unbind compose \CXe
+
+unbind compose <esc>f
+unbind compose <esc>k
+
+unbind compose &
+unbind compose ^
+unbind compose -
+unbind compose +
+
+unbind compose A
+unbind compose C
+unbind compose D
+unbind compose E
+unbind compose F
+unbind compose G
+unbind compose P
+unbind compose R
+unbind compose S
+unbind compose T
+unbind compose U
+
+unbind compose a
+unbind compose b
+unbind compose d
+unbind compose e
+unbind compose h
+unbind compose i
+unbind compose l
+unbind compose m
+unbind compose n
+unbind compose p
+unbind compose s
+unbind compose v
+unbind compose w
+unbind compose y
+
+
+# Bindings
+bind compose [  move-up
+bind compose ]  move-down
+
+bind compose B  edit-bcc
+bind compose C  edit-cc
+bind compose F  edit-from
+bind compose S  send-message
+bind compose T  edit-to
+
+bind compose ae edit-file
+bind compose am attach-message
+bind compose ar rename-attachment
+bind compose d  detach-file
+bind compose ed edit-description
+bind compose em edit-message
+bind compose eh edit-headers
+bind compose f  edit-from
+bind compose g  get-attachment
+bind compose h  first-entry
+bind compose j  next-entry
+bind compose k  previous-entry
+bind compose l  last-entry
+bind compose p  postpone-message
+bind compose s  edit-subject
+bind compose xm pgp-menu
+
+# vi: filetype=neomuttrc

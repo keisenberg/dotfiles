@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+## neomutt_extra_mutt-ics :: NeoMutt :: Extra :: mutt-ics
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_280_neomutt_extra_mutt-ics'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: pipx :: Install :: mutt-ics
+pipx install mutt-ics || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: pipx :: install mutt-ics :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

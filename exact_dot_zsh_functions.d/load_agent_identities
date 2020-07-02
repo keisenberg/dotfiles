@@ -1,0 +1,259 @@
+#
+## Initialization :: Variables :: Static
+
+# shellcheck disable=SC2168
+
+# Variable modification :: Function :: Short name
+local -r fr_function_sn='load_agent_identities'
+
+# Variable modification :: Keystore :: Reference
+local -r fr_keystore_reference='cryptic-a4f'
+
+# Variable modification :: Key list :: SSH
+local -r fr_kl_ssh=(ssh/obfuscated.tld/user/keisenberg/ed25519-52c6186c/identity ssh/obfuscated.tld/user/keisenberg/rsa-52c6186c/identity)
+
+# Variable modification :: Key list :: GnuPG :: Public
+local -r fr_kl_gnupg_public=(gnupg/obfuscated.tld/user/keisenberg/c-0xf3a3c97448d1aeb7/public.key.asc gnupg/obfuscated.tld/user/keisenberg/a-0xa98eda2293d1d946/public.key.asc gnupg/obfuscated.tld/user/keisenberg/e-0x7ee426550e988f53/public.key.asc gnupg/obfuscated.tld/user/keisenberg/s-0xa25e7b22593d8de1/public.key.asc gnupg/obfuscated.tld/user/keisenberg/c-0x40e54c1ea3b3a0a0/public.key.asc gnupg/obfuscated.tld/user/keisenberg/a-0x51277689e451dd7a/public.key.asc gnupg/obfuscated.tld/user/keisenberg/e-0x40fc105605459980/public.key.asc gnupg/obfuscated.tld/user/keisenberg/s-0x294dc9ee093c8b76/public.key.asc gnupg/obfuscated.tld/user/obfuscated/x-0xc0736f9a871241e5/public.key.asc)
+
+# Variable modification :: Key list :: GnuPG :: Secret
+local -r fr_kl_gnupg_secret=(gnupg/obfuscated.tld/user/keisenberg/a-0xa98eda2293d1d946/secret.key.asc gnupg/obfuscated.tld/user/keisenberg/e-0x7ee426550e988f53/secret.key.asc gnupg/obfuscated.tld/user/keisenberg/s-0xa25e7b22593d8de1/secret.key.asc gnupg/obfuscated.tld/user/keisenberg/a-0x51277689e451dd7a/secret.key.asc gnupg/obfuscated.tld/user/keisenberg/e-0x40fc105605459980/secret.key.asc gnupg/obfuscated.tld/user/keisenberg/s-0x294dc9ee093c8b76/secret.key.asc)
+
+# Variable modification :: Key fingerprint :: GnuPG :: Trusted :: Ultimate
+local -r fr_kf_gnupg_trusted_ultimate=(416913414d75863cecb6191ff3a3c97448d1aeb7 7147b8aae50408c6dbbce2fe40e54c1ea3b3a0a0)
+
+# Variable modification :: Key fingerprint :: GnuPG :: Trusted :: Full
+local -r fr_kf_gnupg_trusted_full=(129c64eaf7e582cfef2fcc2fc0736f9a871241e5)
+
+# Variable modification :: Key list :: GnuPG :: Public :: Alternative persona
+local -r fr_kl_gnupg_public_ap=(gnupg/obfuscated.tld/user/obfuscated/c-0xffad542306f7a739/public.key.asc gnupg/obfuscated.tld/user/obfuscated/a-0x5e6970489313e1e5/public.key.asc gnupg/obfuscated.tld/user/obfuscated/e-0x2bcb91acd5059b13/public.key.asc gnupg/obfuscated.tld/user/obfuscated/s-0x579232f718df9e07/public.key.asc)
+
+# Variable modification :: Key list :: GnuPG :: Secret :: Alternative persona
+local -r fr_kl_gnupg_secret_ap=(gnupg/obfuscated.tld/user/obfuscated/a-0x5e6970489313e1e5/secret.key.asc gnupg/obfuscated.tld/user/obfuscated/e-0x2bcb91acd5059b13/secret.key.asc gnupg/obfuscated.tld/user/obfuscated/s-0x579232f718df9e07/secret.key.asc)
+
+# Variable modification :: Key fingerprint :: GnuPG :: Trusted :: Ultimate:: Alternative persona
+local -r fr_kf_gnupg_trusted_ultimate_ap=(ff0902edd9e97a1986f0f3d8ffad542306f7a739)
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence process :: ssh-agent
+if ! pgrep -q ssh-agent; then
+    # Notify :: Missing agent process
+    printf '%s\n' "FAIL :: Missing agent process :: ssh-agent :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+fi
+
+# Validate :: Existence process :: gpg-agent
+if ! pgrep -q gpg-agent; then
+    # Notify :: Missing agent process
+    printf '%s\n' "FAIL :: Missing agent process :: gpg-agent :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Validate :: Existence binary :: VeraCrypt
+if [[ ! -e /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt ]]; then
+    # Notify :: Missing binary
+    printf '%s\n' "FAIL :: Missing binary :: /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+fi
+
+#
+## Preprocess :: Phase 2
+
+# Validate :: Existence keystore :: $HOME/Containers/VeraCrypt/$fr_keystore_reference
+if [[ ! -e "$HOME/Containers/VeraCrypt/$fr_keystore_reference" ]]; then
+    # Notify :: Missing keystore
+    printf '%s\n' "FAIL :: Missing keystore :: $HOME/Containers/VeraCrypt/$fr_keystore_reference :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+fi
+
+# Validate :: Existence directory :: /Volumes/$fr_keystore_reference
+if [[ ! -d "/Volumes/$fr_keystore_reference" ]]; then
+    # Action :: Mount keystore :: $HOME/Containers/VeraCrypt/$fr_keystore_reference
+    /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt --text --keyfiles='' --mount --mount-options=ro --pim=0 "$HOME/Containers/VeraCrypt/$fr_keystore_reference" "/Volumes/$fr_keystore_reference" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: VeraCrypt.app :: Mount keystore :: $HOME/Containers/VeraCrypt/$fr_keystore_reference :: /Volumes/$fr_keystore_reference :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+
+    # Variable modification :: State :: Volume mount
+    local -r fr_state_vm='function_mounted'
+fi
+
+#
+## Main :: Phase 0
+
+# Loop :: Array :: Key list :: SSH
+for fr_key_ssh in "${fr_kl_ssh[@]}"; do
+    # Action :: SSH :: Add identity :: $fr_key_ssh
+    ssh-add -q "/Volumes/$fr_keystore_reference/$fr_key_ssh" 2>/dev/null || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: ssh-add :: /Volumes/$fr_keystore_reference/$fr_key_ssh :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+done
+
+# Report :: Identity list :: SSH
+printf '\nIdentity loading :: SSH\n'
+ssh-add -l 2>/dev/null
+
+#
+## Main :: Phase 1
+
+# Directory modification :: Content :: ~/.gnupg/
+find ~/.gnupg/crls.d ~/.gnupg/openpgp-revocs.d ~/.gnupg/private-keys-v1.d -type f -delete 2>/dev/null || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: find :: Directory content modification :: $HOME/.gnupg :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+}
+find ~/.gnupg -type f \( -name '.#lk0x*' -o -name 'pubring.kbx' -o -name 'pubring.kbx~' -o -name 'random_seed' -o -name 'tofu.db' -o -name 'trustdb.gpg' \) -delete 2>/dev/null || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: find :: Directory content modification :: $HOME/.gnupg :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+}
+
+# Action :: Reload GnuPG components :: all
+gpgconf --reload all || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: gpgconf :: Reload GnuPG components :: all :: $fr_function_sn/$LINENO"
+
+    # Action :: Exit gracefully
+    return
+}
+
+# Loop :: Array :: Key list :: GnuPG :: Public
+for fr_key_gnupg_public in "${fr_kl_gnupg_public[@]}"; do
+    # Action :: GnuPG :: Import key :: Public :: $fr_key_gnupg_public
+    gpg --import "/Volumes/$fr_keystore_reference/$fr_key_gnupg_public" 2>/dev/null || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: gpg :: Import :: /Volumes/$fr_keystore_reference/$fr_key_gnupg_public :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+done
+
+# Loop :: Array :: Key list :: GnuPG :: Secret
+for fr_key_gnupg_secret in "${fr_kl_gnupg_secret[@]}"; do
+    # Action :: GnuPG :: Import key :: Secret :: $fr_key_gnupg_secret
+    gpg --import "/Volumes/$fr_keystore_reference/$fr_key_gnupg_secret" 2>/dev/null || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: gpg :: Import :: /Volumes/$fr_keystore_reference/$fr_key_gnupg_secret :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+done
+
+# Loop :: Array :: Key list :: GnuPG :: Trusted :: Ultimate
+for fr_fingerprint_gnupg_trusted_ultimate in "${fr_kf_gnupg_trusted_ultimate[@]}"; do
+    # Action :: GnuPG :: Update trust database
+    echo "$fr_fingerprint_gnupg_trusted_ultimate:6:" | gpg --batch --import-ownertrust || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: gpg :: Batch :: Update trust database :: Ultimate :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+done
+
+# Loop :: Array :: Key list :: GnuPG :: Trusted :: Full
+for fr_fingerprint_gnupg_trusted_full in "${fr_kf_gnupg_trusted_full[@]}"; do
+    # Action :: GnuPG :: Update trust database
+    echo "$fr_fingerprint_gnupg_trusted_full:5:" | gpg --batch --import-ownertrust || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: gpg :: Batch :: Update trust database :: Full :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+done
+
+#
+## Main :: Phase 2
+
+# Validate :: Load additional identities :: Alternative persona
+if [[ "$*" == 'ap' ]]; then
+    # Loop :: Array :: Key list :: GnuPG :: Public :: Alternative persona
+    for fr_key_gnupg_public_ap in "${fr_kl_gnupg_public_ap[@]}"; do
+        # Action :: GnuPG :: Import key :: Public :: Alternative persona :: $fr_key_gnupg_public
+        gpg --import "/Volumes/$fr_keystore_reference/$fr_key_gnupg_public_ap" 2>/dev/null || {
+            # Notify :: Execution failure
+            printf '%s\n' "FAIL :: gpg :: Import :: /Volumes/$fr_keystore_reference/$fr_key_gnupg_public_ap :: $fr_function_sn/$LINENO"
+
+            # Action :: Exit gracefully
+            return
+        }
+    done
+
+    # Loop :: Array :: Key list :: GnuPG :: Secret :: Alternative persona
+    for fr_key_gnupg_secret_ap in "${fr_kl_gnupg_secret_ap[@]}"; do
+        # Action :: GnuPG :: Import key :: Secret :: Alternative persona :: $fr_key_gnupg_secret
+        gpg --import "/Volumes/$fr_keystore_reference/$fr_key_gnupg_secret_ap" 2>/dev/null || {
+            # Notify :: Execution failure
+            printf '%s\n' "FAIL :: gpg :: Import :: /Volumes/$fr_keystore_reference/$fr_key_gnupg_secret_ap :: $fr_function_sn/$LINENO"
+
+            # Action :: Exit gracefully
+            return
+        }
+    done
+
+    # Loop :: Array :: Key list :: GnuPG :: Trusted :: Ultimate :: Alternative persona
+    for fr_fingerprint_gnupg_trusted_ultimate_ap in "${fr_kf_gnupg_trusted_ultimate_ap[@]}"; do
+        # Action :: GnuPG :: Update trust database :: Alternative persona
+        echo "$fr_fingerprint_gnupg_trusted_ultimate_ap:6:" | gpg --batch --import-ownertrust || {
+            # Notify :: Execution failure
+            printf '%s\n' "FAIL :: gpg :: Batch :: Update trust database :: Ultimate :: Alternative persona :: $fr_function_sn/$LINENO"
+
+            # Action :: Exit gracefully
+            return
+        }
+    done
+fi
+
+#
+## Postprocess :: Phase 0
+
+# Report :: Key list :: GnuPG :: Public
+printf '\nIdentity loading :: GnuPG :: Public\n'
+gpg --list-keys | grep --regexp='pub\s*\(rsa\|ed\)[0-9]\{4,5\}' --regexp='uid\s*\[.*>' --regexp='sub\s* \(rsa\|ed\|cv\)[0-9]\{4,5\}'
+
+# Report :: Key list :: GnuPG :: Secret
+printf '\nIdentity loading :: GnuPG :: Secret\n'
+gpg --list-secret-keys | grep --regexp='sec[# ]\s*\(rsa\|ed\)[0-9]\{4,5\}' --regexp='uid\s*\[.*>' --regexp='ssb\s* \(rsa\|ed\|cv\)[0-9]\{4,5\}'
+
+#
+## Postprocess :: Phase 1
+
+# Validate :: Existence directory :: /Volumes/$fr_keystore_reference
+if [[ "$fr_state_vm" == 'function_mounted' ]]; then
+    # Action :: Dismount keystore
+    /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt --dismount "$HOME/Containers/VeraCrypt/$fr_keystore_reference" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: VeraCrypt.app :: Dismount keystore :: $HOME/Containers/VeraCrypt/$fr_keystore_reference :: $fr_function_sn/$LINENO"
+
+        # Action :: Exit gracefully
+        return
+    }
+fi
+
+# vi: filetype=zsh

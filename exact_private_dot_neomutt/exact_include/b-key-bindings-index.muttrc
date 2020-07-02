@@ -1,0 +1,107 @@
+#
+## Directives :: Key unbindings :: index
+
+# Unbindings
+unbind index \CB
+unbind index \Ce
+unbind index \Cf
+unbind index \Ck
+unbind index \Cn
+unbind index \Cp
+unbind index \Cr
+unbind index \Ct
+unbind index \Cu
+
+unbind index <esc><tab>
+unbind index <esc>C
+unbind index <esc>P
+unbind index <esc>V
+unbind index <esc>b
+unbind index <esc>c
+unbind index <esc>d
+unbind index <esc>e
+unbind index <esc>i
+unbind index <esc>k
+unbind index <esc>l
+unbind index <esc>p
+unbind index <esc>r
+unbind index <esc>s
+unbind index <esc>t
+unbind index <esc>u
+unbind index <esc>v
+unbind index <space>
+
+unbind index #
+unbind index $
+unbind index %
+unbind index &
+unbind index .
+unbind index @
+unbind index |
+unbind index ~
+
+unbind index C
+unbind index F
+unbind index M
+unbind index N
+unbind index P
+unbind index Q
+unbind index R
+unbind index S
+unbind index T
+unbind index U
+unbind index V
+unbind index W
+unbind index Y
+
+unbind index a
+unbind index b
+unbind index c
+unbind index e
+unbind index i
+unbind index l
+unbind index m
+unbind index p
+unbind index s
+unbind index w
+unbind index y
+
+
+# Bindings
+bind index \Cd        delete-pattern
+bind index \Cu        undelete-pattern
+
+bind index <pageup>   previous-page
+bind index <pagedown> next-page
+
+bind index .          limit
+
+bind index D          purge-message
+bind index E          tag-pattern
+bind index J          sidebar-next
+bind index K          sidebar-prev
+bind index L          sidebar-open
+bind index R          group-reply
+bind index T          collapse-all
+bind index Z          modify-tags
+
+bind index a          view-attachments
+bind index b          sidebar-toggle-visible
+bind index e          tag-entry
+bind index cn         mail
+bind index d          delete-message
+bind index f          flag-message
+bind index h          first-entry
+bind index j          next-entry
+bind index k          previous-entry
+bind index l          last-entry
+bind index n          toggle-new
+bind index o          recall-message
+bind index p          parent-message
+bind index r          reply
+bind index t          collapse-thread
+bind index u          undelete-message
+bind index v          search-next
+bind index z          vfolder-from-query
+
+# vi: filetype=neomuttrc

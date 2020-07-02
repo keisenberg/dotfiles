@@ -1,0 +1,65 @@
+#!/usr/bin/env sh
+## system_sudoers_group_wheel :: System :: sudoers :: Group :: wheel
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_100_system_sudoers_group_wheel'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Checksum :: sudoers :: Group :: wheel
+readonly cr_checksum_sudoers_group_wheel="$HOME/.config/chezmoi/checksum/$cr_script_sn/sudoers_group_wheel"
+
+# Variable modification :: Target :: sudoers :: Group :: wheel
+readonly cr_target_sudoers_group_wheel="$HOME/.local/share/chezmoi/.data/$cr_script_sn/sudoers_group_wheel"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Existence checksum file :: sudoers :: Group :: wheel
+if [ -e "$cr_checksum_sudoers_group_wheel" ]; then
+    # Validate :: Determine checksum :: Data entity
+    if [ "$(LC_ALL=C shasum --algorithm 512256 --text "$cr_target_sudoers_group_wheel" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/')" = "$(cat "$cr_checksum_sudoers_group_wheel")" ]; then
+        # Action :: Graceful exit
+        exit 0
+    fi
+fi
+
+#
+## Main :: Phase 0
+
+# File modification :: /private/etc/sudoers.d/40-group_wheel
+sudo cp -v "$cr_target_sudoers_group_wheel" /private/etc/sudoers.d/40-group_wheel || {
+    # Notify :: Copy failure
+    printf '%s\n' "FAIL :: cp :: $cr_target_sudoers_group_wheel :: /private/etc/sudoers.d/40-group_wheel :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+#
+## Postprocess :: Phase 0
+
+# Validate :: Existence directory :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+if [ ! -d "$HOME/.config/chezmoi/checksum/$cr_script_sn" ]; then
+    # Directory modification :: $HOME/.config/chezmoi/checksum/$cr_script_sn
+    mkdir -v "$HOME/.config/chezmoi/checksum/$cr_script_sn"
+fi
+
+# File modification :: $cr_checksum_sudoers_group_wheel
+LC_ALL=C shasum --algorithm 512256 --text "$cr_target_sudoers_group_wheel" | sed 's/^\([a-z0-9]\{64\}\)  .*$/\1/' >"$cr_checksum_sudoers_group_wheel" || {
+    # Notify :: Checksum failure
+    printf '%s\n' "FAIL :: shasum :: $cr_target_sudoers_group_wheel :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

@@ -1,0 +1,24 @@
+#
+## Static functions
+
+# Function modification :: capa
+capa() {
+    # Action :: Navigate to chezmoi source directory
+    # shellcheck disable=SC2164
+    cd "$(chezmoi source-path)"
+
+    # Action :: Git :: Add / autocommit
+    git aa
+
+    # Action :: Git :: Pull / push
+    git pp
+
+    # Action :: chezmoi :: apply :: Apply any changes
+    chezmoi apply
+
+    # Action :: Navigate to previous directory
+    # shellcheck disable=SC2103 disable=SC2164
+    cd -
+}
+
+# vi: filetype=zsh

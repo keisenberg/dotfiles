@@ -1,0 +1,34 @@
+## .msmtprc :: msmtp :: Configuration filie
+
+
+#
+## Directives :: Account
+
+# Account :: defaults
+defaults
+port 587
+protocol smtp
+tls on
+tls_starttls on
+tls_certcheck on
+auth on
+
+# Account :: obfuscated-keisenberg-k2e
+account obfuscated-keisenberg-k2e
+host host.obfuscated.tld
+timeout 10
+tls_trust_file ~/.cacerts/ea3876fce3434801d3a35efbe2165843fffa1341.pem
+tls_fingerprint f9:12:65:21:aa:bc:2c:d3:33:12:aa:ff:23:65:ba:a5:b2:19:48:be:eb:ed:53:d2:e1:af:9c:97:8d:2a:e7:bb
+auth login
+user keisenberg@obfuscated.tld
+passwordeval gpg --decrypt --no-tty --quiet ~/.msmtp/account-obfuscated-keisenberg-k2e-pass.gpg
+
+# Account :: smp-10510-g8f
+account smp-10510-g8f
+host host.obfuscated.tld
+timeout 10
+tls_trust_file ~/.cacerts/6a96632887bb756db436c5a0fd651a3b816c15de.pem
+tls_fingerprint cb:1d:3e:cd:c0:93:cb:cd:5c:3c:57:8a:64:a4:85:97:d8:5d:00:ec:42:8c:6b:e9:50:41:da:cb:1d:3e:cd:c0
+auth login
+user 10510
+passwordeval gpg --decrypt --no-tty --quiet ~/.msmtp/account-smp-10510-g8f-pass.gpg

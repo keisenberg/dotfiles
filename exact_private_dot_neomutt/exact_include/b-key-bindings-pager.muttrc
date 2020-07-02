@@ -1,0 +1,125 @@
+#
+## Directives :: Key unbindings :: pager
+
+# Unbindings
+unbind pager \CB
+unbind pager \CD
+unbind pager \CE
+unbind pager \CF
+unbind pager \CL
+unbind pager \CN
+unbind pager \CP
+unbind pager \CR
+unbind pager \CU
+
+unbind pager <backspace>
+unbind pager <end>
+unbind pager <esc>C
+unbind pager <esc>P
+unbind pager <esc>c
+unbind pager <esc>d
+unbind pager <esc>e
+unbind pager <esc>i
+unbind pager <esc>k
+unbind pager <esc>n
+unbind pager <esc>p
+unbind pager <esc>r
+unbind pager <esc>s
+unbind pager <esc>u
+unbind pager <f1>
+unbind pager <home>
+unbind pager <left>
+unbind pager <right>
+unbind pager <pagedown>
+unbind pager <pageup>
+unbind pager <space>
+unbind pager <tab>
+
+unbind pager $
+unbind pager %
+unbind pager &
+unbind pager -
+unbind pager .
+unbind pager @
+unbind pager ^
+
+unbind pager 1
+unbind pager 2
+unbind pager 3
+unbind pager 4
+unbind pager 5
+unbind pager 6
+unbind pager 7
+unbind pager 8
+unbind pager 9
+
+unbind pager C
+unbind pager F
+unbind pager J
+unbind pager K
+unbind pager L
+unbind pager N
+unbind pager O
+unbind pager P
+unbind pager Q
+unbind pager R
+unbind pager S
+unbind pager T
+unbind pager V
+unbind pager W
+unbind pager Y
+
+unbind pager a
+unbind pager b
+unbind pager c
+unbind pager d
+unbind pager e
+unbind pager f
+unbind pager g
+unbind pager i
+unbind pager j
+unbind pager k
+unbind pager m
+unbind pager n
+unbind pager o
+unbind pager p
+unbind pager r
+unbind pager s
+unbind pager t
+unbind pager u
+unbind pager v
+unbind pager w
+unbind pager x
+unbind pager y
+
+
+# Bindings
+bind pager <pageup>   previous-page
+bind pager <pagedown> next-page
+bind pager <return>   exit
+
+bind pager .          toggle-quoted
+
+bind pager D          purge-message
+bind pager J          sidebar-next
+bind pager K          sidebar-prev
+bind pager L          sidebar-open
+bind pager R          group-reply
+bind pager Z          modify-tags
+
+bind pager a          view-attachments
+bind pager b          sidebar-toggle-visible
+bind pager cn         mail
+bind pager f          flag-message
+bind pager h          top
+bind pager i          display-toggle-weed
+bind pager j          next-line
+bind pager k          previous-line
+bind pager l          bottom
+bind pager o          recall-message
+bind pager p          parent-message
+bind pager r          reply
+bind pager v          search-next
+bind pager z          vfolder-from-query
+
+# vi: filetype=neomuttrc

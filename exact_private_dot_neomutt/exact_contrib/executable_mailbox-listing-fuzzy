@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+## mailbox-listing-fuzzy :: Mailbox :: Listing :: Fuzzy
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: fd :: Arguments
+readonly sr_fd_arguments='--exclude */new --exclude */cur --exclude */tmp --type d'
+
+# Variable modification :: fzf :: Arguments
+readonly sr_fzf_arguments='--ansi --exact --exit-0 --inline-info --layout=default --multi --no-height --select-1 --preview-window=down:1%:noborder --tac'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Mailbox :: Root directory
+readonly sr_mailbox_rd="${HOME:-/NO_USER}/.mail"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Variable content :: my_mailbox
+if [[ -n "${my_mailbox:-}" ]]; then
+    # Variable modification :: Mailbox :: Reference
+    readonly sr_mailbox_reference="$my_mailbox"
+else
+    # Action :: Print newline
+    printf '\n'
+
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence mailbox directory :: Inbox
+if [[ -d "${sr_mailbox_rd:-/NO_USER}/${sr_mailbox_reference:-NO_MAILBOX_REFERENCE}/INBOX/cur" ]]; then
+    # Variable modification :: Output :: Fuzzy search
+    # shellcheck disable=SC2016 disable=SC2086
+    readonly sr_output_fs="$(fd . "${sr_mailbox_rd:-/NO_USER}/${sr_mailbox_reference:-NO_MAILBOX_REFERENCE}" ${sr_fd_arguments:-} | sort | fzf ${sr_fzf_arguments:-} --preview 'printf "Read :: $(fd --color=never --type f . {}/cur | wc -l | sed "s/ //g") | Unread :: $(fd --color=never --type f . {}/new | wc -l | sed "s/ //g") | Total :: $(fd --color=never --type f . {} | wc -l | sed "s/ //g")"\\n')"
+
+    # Validate :: Content :: Output :: Fuzzy search
+    if [[ -z "${sr_output_fs:-}" ]]; then
+        # Action :: Print newline
+        printf '\n'
+    else
+        # Print :: Push command :: change-folder
+        printf %s "push '<change-folder>$sr_output_fs'\n"
+    fi
+else
+    # Action :: Print newline
+    printf '\n'
+fi

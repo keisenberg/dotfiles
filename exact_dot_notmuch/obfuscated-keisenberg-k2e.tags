@@ -1,0 +1,9 @@
+# Incoming mails :: Recipient based
++obfuscated.tld to:keisenberg@obfuscated.tld
+
+# Incoming mails :: Domain based
++obfuscated1.tld to:@obfuscated1.tld
++obfuscated2.tld to:@obfuscated2.tld
++obfuscated3.tld to:@obfuscated3.tld
+
+# vi: filetype=config

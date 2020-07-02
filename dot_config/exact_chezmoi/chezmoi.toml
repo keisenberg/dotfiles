@@ -1,0 +1,9 @@
+## chezmoi.toml :: chezmoi :: Machine-specific configuration
+
+#
+## Directives :: diff
+
+# diff control
+[diff]
+    # Diff pager
+    pager = "diff-so-fancy"

@@ -1,0 +1,20 @@
+#
+## Directives :: Macros :: compose
+
+# Macros
+macro compose X '<pgp-menu>s'
+
+macro compose aa '<attach-file>?'
+macro compose ak '<attach-key>'
+macro compose b ':source ~/.neomutt/contrib/recipient-bcc-fuzzy|<return>'
+macro compose c ':source ~/.neomutt/contrib/recipient-cc-fuzzy|<return>'
+macro compose f ':source ~/.neomutt/contrib/sender-from-fuzzy|<return>'
+macro compose t ':source ~/.neomutt/contrib/recipient-to-fuzzy|<return>'
+macro compose xa '<pgp-menu>a'
+macro compose xb '<pgp-menu>b
+macro compose xc '<pgp-menu>c'
+macro compose xe '<pgp-menu>e'
+macro compose xo '<pgp-menu>o'
+macro compose xs '<pgp-menu>s'
+
+# vi: filetype=neomuttrc

@@ -1,0 +1,36 @@
+#
+## Directives :: Key unbindings :: attach
+
+# Unbindings
+unbind attach \CB
+unbind attach \CE
+unbind attach \CF
+unbind attach \CK
+
+unbind attach <esc>P
+unbind attach <esc>e
+
+unbind attach L
+unbind attach T
+
+unbind attach b
+unbind attach c
+unbind attach f
+unbind attach g
+unbind attach h
+unbind attach p
+unbind attach r
+unbind attach s
+unbind attach v
+
+
+# Bindings
+bind attach h first-entry
+bind attach j next-entry
+bind attach k previous-entry
+bind attach l last-entry
+bind attach p collapse-parts
+bind attach r reply
+bind attach t view-text
+
+# vi: filetype=neomuttrc

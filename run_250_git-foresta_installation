@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+## git-foresta_installation :: git-foresta :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_250_git-foresta_installation'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Determine usage of HTTPS based Git remote url
+if [ ! -e '/usr/local/bin/git-foresta' ]; then
+    # Action :: Download + untar binary
+    curl --location --output /usr/local/bin/git-foresta --silent https://github.com/takaaki-kasai/git-foresta/raw/master/git-foresta || {
+        # Notify :: cURL failure
+        printf '%s\n' "FAIL :: curl :: git-foresta :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+
+    # File modification :: /usr/local/bin/git-foresta
+    chmod -v 0755 /usr/local/bin/git-foresta || {
+        # Notify :: chmod failure
+        printf '%s\n' "FAIL :: chmod :: /usr/local/bin/git-foresta :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

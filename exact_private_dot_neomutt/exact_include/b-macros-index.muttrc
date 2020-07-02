@@ -1,0 +1,31 @@
+#
+## Directives :: Macros :: index
+
+# Macros
+macro index <tab>   '<sync-mailbox><shell-escape>notmuch --config="$HOME/.notmuch/$my_mailbox.config" new --quiet<return><check-stats>'
+macro index <space> ':source ~/.neomutt/contrib/mailbox-listing-fuzzy|<return>'
+
+macro index 0       '<enter-command> set my_pdsave=\$pipe_decode<enter><enter-command> unset pipe_decode<enter><pipe-message>extract_url<enter><enter-command> set pipe_decode=\$my_pdsave<enter>'
+macro index 1       '<change-vfolder>notmuch://?query=folder:INBOX<enter>'
+macro index 2       '<change-vfolder>notmuch://?query=folder:Drafts<enter>'
+macro index 3       '<change-vfolder>notmuch://?query=folder:Sent<enter>'
+macro index 4       '<change-vfolder>notmuch://?query=folder:Archive<enter>'
+macro index 5       '<change-vfolder>notmuch://?query=folder:Junk<enter>'
+macro index 6       '<change-vfolder>notmuch://?query=folder:Trash<enter>'
+
+macro index ,       '<limit>all<return>'
+
+macro index S       '<sync-mailbox><shell-escape>mbsync -Z $my_mailbox-full<return><shell-escape>notmuch --config="$HOME/.notmuch/$my_mailbox.config" new --quiet<return><check-stats>'
+
+macro index cd      ':source ~/.neomutt/contrib/message-forward-fuzzy|<return>'
+macro index cf      ':source ~/.neomutt/contrib/message-compose-fuzzy|<return>'
+macro index cs      '<compose-to-sender><enter>'
+macro index ma      ':source ~/.neomutt/contrib/message-move-archive|<return>'
+macro index mf      ':source ~/.neomutt/contrib/message-move-fuzzy|<return>'
+macro index mi      ':source ~/.neomutt/contrib/message-move-inbox|<return>'
+macro index mt      ':source ~/.neomutt/contrib/message-move-trash|<return>'
+macro index s       '<sync-mailbox><shell-escape>mbsync -Z $my_mailbox-quick<return><shell-escape>notmuch --config="$HOME/.notmuch/$my_mailbox.config" new --quiet<return><sync-mailbox><check-stats>'
+macro index w1      '<sync-mailbox><enter-command>source ~/.neomutt/include/f-mailbox-obfuscated-keisenberg-k2e.muttrc<return><change-vfolder>notmuch://?query=folder:INBOX<return><check-stats>'
+macro index w2      '<sync-mailbox><enter-command>source ~/.neomutt/include/f-mailbox-smp-10510-g8f.muttrc<return><change-vfolder>notmuch://?query=folder:INBOX<return><check-stats>'
+
+# vi: filetype=neomuttrc

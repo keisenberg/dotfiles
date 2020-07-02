@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+## pyenv_python_installation :: python :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_260_pyenv_python_installation'
+
+# Variable modification :: Python :: Version
+readonly cr_python_version='3.8.0'
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine successful previous run based on Python version
+if [[ -d "$HOME/.pyenv/versions/$cr_python_version" ]]; then
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+# Validate :: Determine existence of pyenv binary
+if [[ ! -e '/usr/local/bin/pyenv' ]]; then
+    # Notify :: Missing binary
+    printf '%s\n' "FAIL :: Missing binary :: /usr/local/bin/pyenv :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: pyenv :: Install desired Python version
+pyenv install "$cr_python_version" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: pyenv :: install :: $cr_python_version :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+# Action :: pyenv :: Ensure desired Python version is set for usage
+pyenv global "$cr_python_version" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: pyenv :: local :: $cr_python_version :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

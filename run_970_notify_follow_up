@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+## follow_up :: Follow up
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_970_follow_up'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [[ -e "$cr_state_success" ]]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Notify :: List follow up actions
+printf '\nFollow-up actions::\n\n'
+
+# Notify :: Explain follow up actions :: Enpass
+printf 'Enpass :: Initialize :: WebDAV connect\n'
+printf 'Extract :: Container :: cryptic-a4f\n\n'
+
+# Notify :: Explain follow up actions :: DEVONThink
+printf 'DEVONThink :: Initialize :: WebDAV connect\n'
+printf 'Execute :: Provisioning directives\n\n'
+
+# Notify :: Explain follow up actions :: Secrets
+printf 'Secrets :: Initialize :: {GPG,SSH}-agents\n'
+printf '$ load_agent_identities\n\n'
+
+# Notify :: Explain follow up actions :: OpenSSH
+printf 'OpenSSH :: Initialize :: Host lists\n'
+printf '$ pull_host_lists\n\n'
+
+# Notify :: Explain follow up actions :: NeoMutt
+printf 'NeoMutt :: Initialize :: Mailbox :: obfuscated-keisenberg-k2e\n'
+printf '$ mbsync --verbose -Z obfuscated-keisenberg-k2e-full\n'
+# shellcheck disable=SC2016
+printf '$ notmuch --config="$HOME/.notmuch/obfuscated-keisenberg-k2e.config" new\n\n'
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

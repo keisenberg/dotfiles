@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+## message-move-fuzzy :: Message :: Move :: Fuzzy
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: fd :: Arguments
+readonly sr_fd_arguments='--exclude */new --exclude */cur --exclude */tmp --type d'
+
+# Variable modification :: fzf :: Arguments
+readonly sr_fzf_arguments='--ansi --exact --exit-0 --inline-info --layout=default --multi --no-height --select-1 --preview-window=down:12%:noborder'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Mailbox :: Root directory
+readonly sr_mailbox_rd="${HOME:-/NO_USER}/.mail"
+
+#
+## Preprocess :: Phase 0
+
+# Validat :: Variable content :: my_mailbox
+if [[ -n "${my_mailbox:-}" ]]; then
+    # Variable modification :: Mailbox :: Reference
+    readonly sr_mailbox_reference="$my_mailbox"
+else
+    # Action :: Print newline
+    printf '\n'
+
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence mailbox directory :: Inbox
+if [[ -d "${sr_mailbox_rd:-/NO_USER}/${sr_mailbox_reference:-NO_MAILBOX_REFERENCE}/INBOX/cur" ]]; then
+    # Variable modification :: Output :: Fuzzy search
+    # shellcheck disable=SC2086
+    readonly sr_output_fs="$(fd . "${sr_mailbox_rd:-/NO_USER}/${sr_mailbox_reference:-NO_MAILBOX_REFERENCE}" ${sr_fd_arguments:-} | fzf ${sr_fzf_arguments:-} --preview 'exa --color=always --color-scale --group --icons --long {}')"
+
+    # Validate :: Content :: Output :: Fuzzy search
+    if [[ -z "${sr_output_fs:-}" ]]; then
+        # Action :: Print newline
+        printf '\n'
+    else
+        # Print :: Push command :: save-message
+        printf %s "push '<save-message>$sr_output_fs'\n"
+
+        # Print :: Push command :: sync-mailbox / check-stats
+        printf '<sync-mailbox><check-stats>\n'
+    fi
+else
+    # Action :: Print newline
+    printf '\n'
+fi

@@ -1,0 +1,42 @@
+## .muttrc :: Mutt :: Configuration file
+
+#
+## Directives :: Source
+
+# Source :: A :: Initialization
+source '~/.neomutt/include/a-paths.muttrc'
+source '~/.neomutt/include/a-hooks-state.muttrc'
+
+# Source :: B :: Key bindings
+source '~/.neomutt/include/b-key-bindings-alias.muttrc'
+source '~/.neomutt/include/b-key-bindings-attach.muttrc'
+source '~/.neomutt/include/b-key-bindings-browser.muttrc'
+source '~/.neomutt/include/b-key-bindings-compose.muttrc'
+source '~/.neomutt/include/b-key-bindings-editor.muttrc'
+source '~/.neomutt/include/b-key-bindings-generic.muttrc'
+source '~/.neomutt/include/b-key-bindings-index.muttrc'
+source '~/.neomutt/include/b-key-bindings-pager.muttrc'
+source '~/.neomutt/include/b-key-bindings-key_select_pgp.muttrc'
+source '~/.neomutt/include/b-key-bindings-postpone.muttrc'
+source '~/.neomutt/include/b-macros-attach.muttrc'
+source '~/.neomutt/include/b-macros-compose.muttrc'
+source '~/.neomutt/include/b-macros-index.muttrc'
+source '~/.neomutt/include/b-macros-pager.muttrc'
+
+# Source :: C :: Colorization
+source '~/.neomutt/include/c-theme-solarized-powerline.muttrc'
+source '~/.neomutt/include/c-colorization.muttrc'
+
+# Source :: D :: Behaviour
+source '~/.neomutt/include/d-internals.muttrc'
+source '~/.neomutt/include/d-interactive-behaviour.muttrc'
+
+# Source :: E :: Interaction
+source '~/.neomutt/include/e-composition.muttrc'
+source '~/.neomutt/include/e-cryptography.muttrc'
+source '~/.neomutt/include/e-visualization.muttrc'
+
+# Source :: F :: Mailbox(es)
+source '~/.neomutt/include/f-mailbox-obfuscated-keisenberg-k2e.muttrc'
+
+# vi: filetype=muttrc

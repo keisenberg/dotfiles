@@ -1,0 +1,30 @@
+## .fwknoprc :: fwknop configuration parameters
+
+
+#
+## Parameters :: Stanza :: Default
+
+[default]
+# Have fwknop resolve the external network IP via HTTP(S) request
+ALLOW_IP          resolve
+# Automatically resolve the externally routable IP associated with the fwknop client via SSL (wget in --secure-protocol mode // https://www.cipherdyne.org/cgi-bin/myip)
+RESOLVE_IP_HTTPS  Y
+# When resolving the externally routable IP associated with the fwknop client, do not use HTTP connection
+RESOLVE_HTTP_ONLY N
+# Full path to wget command
+WGET_CMD          /usr/local/bin/wget
+
+# SPA message digest type
+DIGEST_TYPE       sha512
+# HMAC digest algorithm used for authenticated encryption of SPA packets
+HMAC_DIGEST_TYPE  sha512
+
+# GPG mode for encryption of SPA packets
+USE_GPG           Y
+# Have fwknop interface with GPG agent instance for the GPG key password (environment variable :: GPG_AGENT_INFO)
+USE_GPG_AGENT     Y
+
+# GPG key ID for the recipient of the GPG encrypted SPA data
+GPG_RECIPIENT     0x1234567890abcdef
+# GPG key ID to sign the GPG encrypted SPA data with
+GPG_SIGNER        0xabcdef1234567890

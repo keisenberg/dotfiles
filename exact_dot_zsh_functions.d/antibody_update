@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: antibody_update
+antibody_update() {
+    # Action :: antibody :: Update all previously bundled bundles
+    antibody update
+}
+
+# vi: filetype=zsh

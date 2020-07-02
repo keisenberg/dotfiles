@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: cdiff
+cdiff() {
+    # Action :: chezmoi :: diff :: Print the diff between the target state and the destination state
+    chezmoi diff
+}
+
+# vi: filetype=zsh

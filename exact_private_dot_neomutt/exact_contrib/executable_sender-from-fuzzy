@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+## sender-from-fuzzy :: Sender :: From :: Fuzzy
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: fzf :: Arguments
+readonly sr_fzf_arguments='--ansi --exact --exit-0 --inline-info --layout=default'
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Variable content :: my_mailbox
+if [[ -n "${my_mailbox:-}" ]]; then
+    # Variable modification :: Mailbox :: Reference
+    readonly sr_mailbox_reference="$my_mailbox"
+else
+    # Action :: Print newline
+    printf '\n'
+
+    # Exit gracefully
+    exit 0
+fi
+
+#
+## Preprocess :: Phase 1
+
+# Validate :: Existence alias list
+if [[ -f "$HOME/.neomutt/include/f-mailbox-$sr_mailbox_reference.alias" ]]; then
+    # Variable modification :: Alias :: List
+    readonly sr_alias_list="$HOME/.neomutt/include/f-mailbox-$sr_mailbox_reference.alias"
+else
+    # Print :: Push command :: edit-from
+    printf '%s\n' "push '<edit-from>'"
+
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Variable modification :: Alias :: Selected
+# shellcheck disable=SC2086
+readonly sr_alias_selected="$(sort "$sr_alias_list" 2>/dev/null | fzf ${sr_fzf_arguments:-})" || {
+    # Action :: Print newline
+    printf '\n'
+
+    # Action :: Exit gracefully
+    exit 0
+}
+
+# Validate :: Alias :: Selected :: Formatting
+if [[ -n "$sr_alias_selected" ]] && [[ "$sr_alias_selected" =~ ^[A-Za-z\ ]+\ \<[a-z]+@[a-z]+\.[a-z]{2,4}\>$ ]]; then
+    # Print :: Push command :: edit-from
+    printf '%s\n' "push '<edit-from>^U$sr_alias_selected<enter>'"
+else
+    # Action :: Print newline
+    printf '\n'
+fi

@@ -1,0 +1,25 @@
+#
+## Directives :: Interactive behaviour
+
+# Functions in the index menu which affect a message will be applied to all tagged messages (if there are any)
+set auto_tag = yes
+
+# Do not prompt for confirmation when appending messages to an existing mailbox
+set confirmappend = no
+
+# Do not prompt to save messages in the $postponed mailbox, instead save them by default when electing not to send them immediately
+set postpone = yes
+
+# Set "quit" and "exit" to actually quit from NeoMutt without a prompt
+set quit = yes
+
+# Do not ask to recall postponed messages
+set recall = no
+
+# Time in seconds to pause while displaying certain informational messages, while moving from folder to folder and after expunging messages from the current folder
+set sleep_time = 0
+
+# NeoMutt will wait for a key only if the external command returned a non-zero status (<shell-escape> , <pipe-message> , <pipe-entry> , <print-message> , <print-entry>)
+set wait_key = no
+
+# vi: filetype=neomuttrc

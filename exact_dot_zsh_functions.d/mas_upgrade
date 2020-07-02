@@ -1,0 +1,10 @@
+#
+## Static functions
+
+# Function modification :: mas_upgrade
+mas_upgrade() {
+    # Action :: mas :: upgrade :: Upgrade outdated apps from the Mac App Store
+    mas upgrade
+}
+
+# vi: filetype=zsh

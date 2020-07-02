@@ -1,0 +1,187 @@
+## .gitconfig :: Personal GIT configuration file
+
+
+#
+## Directives :: Alias
+
+# Alias control
+[alias]
+    # Function :: Add -> Autocommit
+    aa = "!func(){ git add --all && git commit --message=\"auto(${1:-unspecified}): ${HOSTNAME:-NO_HOSTNAME}\n\" --message=\"Signing key :: $(git config --get user.signingkey 2> /dev/null || { echo 'NO_SIGNING_KEY'; })\nPath        :: ${PWD:-NO_PWD}\n\n$(git log --oneline --stat -1 | tail -n +2 | sed -e 's/^ *//g')\n\" --verbose --verbose; }; func"
+    # Function :: Add -> Autocommit :: Obfuscated
+    aao = "!func(){ git add --all && git commit --message=\"auto(${1:-unspecified}): obfuscated.domain.tld\n\" --verbose --verbose; }; func"
+    # Function :: Add -> Commit -> Pull -> Push
+    acpp = "!func(){ git add --all && git commit --verbose --verbose && git pull --quiet --no-progress --rebase && git push --progress; }; func"
+    # Function :: Add -> Commit -> Pull -> Push -> Checkout :: live -> Merge :: Master -> Push -> Checkout :: master
+    acppl = "!func(){ git add --all && git commit --verbose --verbose && git pull --quiet --no-progress --rebase && git push --progress; git checkout live && git merge --verbose master && git push --progress --verbose && git checkout master; }; func"
+    # Function :: Pull -> Push
+    pp = "!func(){ git pull --quiet --no-progress --rebase && git push --progress; }; func"
+
+    # Diff current state with previous state
+    dcp = diff HEAD^ HEAD
+
+    # Log browse
+    lb = "!source ${HOME}/.zsh_functions.d/fzf_git_log_browse && fzf_git_log_browse"
+    # Pretty logging :: List
+    lg = "log -50 --date=local --decorate --graph --pretty=format:'%C(magenta)%ci%Creset | %C(yellow)%H%Creset | %s%Creset | %C(blue)%G?%Creset |%C(green)% GS%Creset%C(yellow)%d%Creset'"
+    # Pretty logging :: List :: All
+    lga = "log --date=local --decorate --graph --pretty=format:'%C(magenta)%ci%Creset | %C(yellow)%H%Creset | %s%Creset | %C(blue)%G?%Creset |%C(green)% GS%Creset%C(yellow)%d%Creset'"
+    # Pretty logging :: List :: Include file overview
+    ll = "log -50 --date=local --decorate --graph --numstat --pretty=format:'%C(magenta)%ci%Creset | %C(yellow)%H%Creset | %s%Creset | %C(blue)%G?%Creset |%C(green)% GS%Creset%C(yellow)%d%Creset'"
+
+    # Reset hard
+    rh = reset HEAD --hard
+
+    # Stash selective
+    ss = "!source ${HOME}/.zsh_functions.d/fzf_git_stash_selective && fzf_git_stash_selective"
+
+
+#
+## Directives :: Branch
+
+# Branch control
+[branch]
+    # Set up pull to rebase for all tracking branches instead of merge when a new branch is created (git branch, git switch, git checkout)
+    autosetuprebase = always
+
+
+#
+## Directives :: Color
+
+# Color output control
+[color]
+    # git-branch :: Enable colors when the output is to a terminal
+    branch = auto
+    # git log --decorate :: Enable colors when the output is to a terminal
+    decorate = auto
+    # Customized color for diff colorization
+    diff = auto
+    # grep :: Enable colors when the output is to a terminal
+    grep = auto
+    # Use colors for interactive prompts and displays when output is to a terminal
+    interactive = auto
+    # git-show-branch :: Enable colors when the output is to a terminal
+    showbranch = auto
+    # git-status :: Enable colors when the output is to a terminal
+    status = auto
+
+# Customized color for branch coloration
+[color "branch"]
+    # Branch :: remote
+    remote = yellow
+
+# Customized color for diff colorization
+[color "diff"]
+    # Commit headers
+    commit = yellow bold
+    # Hunk header
+    frag = magenta bold
+    # Meta information
+    meta = 11
+    # Added lines
+    new = green bold
+    # Removed lines
+    old = red bold
+    # highlighting whitespace error(s)
+    whitespace = red reverse
+
+# Customized color for grep colorization
+[color "grep"]
+    # Filename prefix (when not using -h)
+    filename = magenta
+
+# Customized color for git add --interactive and git clean --interactive output
+[color "interactive"]
+    # Error output
+    error = red bold
+
+# Customized color for status colorization
+[color "status"]
+    # Files which are added but not committed
+    added = green
+    # Files which are changed but not added in the index
+    changed = red bold
+    # Files which are not tracked by Git
+    untracked = magenta bold
+
+
+#
+## Directives :: Branch
+
+# Commit control
+[commit]
+    # Sign all commits
+    gpgsign = true
+    # File to use as the template for new commit messages
+    template = ~/.git-commit-template
+
+
+#
+## Directives :: Core
+
+# Core behaviour
+[core]
+    # Launch editor upon invoking commands such as commit and tag to edit messages
+    editor = vim -f
+    # Text viewer for use by Git commands
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    # Ensure commands (ls-files, diff) that output paths will quote unusual characters in the pathname by enclosing the pathname in double-quotes and escaping characters with blackslashes
+    quotepath = false
+
+
+#
+## Directives :: Branch
+
+# Diff control
+[diff]
+    # Detect renames and copies (affects git diff porcelain like git-diff and git-log)
+    renames = copies
+
+
+#
+## Directives :: GPG
+
+# GPG behaviour
+[gpg]
+    # Specify minimum trust level for signature verification during all operations
+    minTrustLevel = ultimate
+
+
+#
+## Directives :: Merge
+
+# Merge control
+[merge]
+    # Specify the style in which conflicted hunks are written out to working tree files upon merge (||||||| marker)
+    conflictstyle = diff3
+
+
+#
+## Directives :: Pager
+
+# Turn on pagination of particular Git subcommand(s) when writing to a tty
+[pager]
+    # Subcommand :: diff
+    diff = diff-so-fancy | less --tabs=4 -RFXS --pattern '^(Date|added|deleted|modified): '
+
+
+#
+## Directives :: Rebase
+
+# Rebase control
+[rebase]
+    # Enable --autosquash option by default
+    autosquash = true
+
+
+#
+## Directives :: User
+
+# Details associated with Git commits
+[user]
+    # Email address associated with Git commits
+    email = keisenberg@obfuscated.tld
+    # Name associated with Git commits
+    name = Klaus Eisenberg
+    # Sign commits / tags with specified GPG (sub)-key
+    signingkey = 0xabcdef1234567890

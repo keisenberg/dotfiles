@@ -1,0 +1,8 @@
+## obfuscated2.tld.yml :: assh :: Include :: Hosts :: obfuscated2.tld
+
+hosts:
+  obfuscated2.tld:
+    # Never automatically add host keys to the ~/.ssh/known_hosts file
+    StrictHostKeyChecking: no
+    # Specify file to use for the user host key database
+    UserKnownHostsFile: /dev/null

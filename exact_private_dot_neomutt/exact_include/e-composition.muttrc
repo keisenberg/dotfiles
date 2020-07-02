@@ -1,0 +1,64 @@
+#
+## Directives :: Composition :: Editor
+
+# Specify which editor to use, including additional arguments
+set editor = 'vi +startinsert'
+
+
+#
+## Directives :: Composition :: Encryption
+
+# Store FCCs unencrypted and unsigned, even when the actual message is encrypted and/or signed
+set fcc_clear = yes
+
+
+#
+## Directives :: Composition :: Forwarding
+
+# Default subject when forwarding a message
+set forward_format = 'Fwd: %s'
+
+# Quote forwarded messages included in the main body of the message using string set in $indent_string
+set forward_quote = yes
+
+
+#
+## Directives :: Composition :: Reply
+
+# Skip initial prompt for recipients and subject when replying to messages, and the initial prompt for subject when forwarding messages
+set fast_reply = yes
+
+# Include copy of the message that is being replied to in the reply
+set include = yes
+
+# Use the address listed in the Reply-to: header as the recipient of the reply when replying to a message
+set reply_to = yes
+
+# Extract From: header from the current mail's 'X-Original-To:' header
+set reply_with_xorig = yes
+
+# The default From: line of the reply messages is built using the address where you received the messages you are replying to if that address matches your "alternates"
+set reverse_name = yes
+
+
+#
+## Directives :: Composition :: Sending
+
+# Do not abort when composing messages without given subject
+set abort_nosubject = no
+
+# Set the envelope sender of the message
+set use_envelope_from = yes
+
+# Add custom header(s) to composed messages
+my_hdr User-Agent: All mail clients suck. This one just sucks less.
+
+
+#
+## Directives :: Composition :: Subject
+
+# Specify the subject to be used when replying to an email with an empty subject
+set empty_subject = '(no subject)'
+
+
+# vi: filetype=neomuttrc

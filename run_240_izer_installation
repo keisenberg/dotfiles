@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+## izer_installation :: izer :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_240_izer_installation'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Determine usage of HTTPS based Git remote url
+if [ ! -e '/usr/local/bin/izer' ]; then
+    # Action :: Download + untar binary
+    curl --location --silent https://github.com/NightWolf007/izer/releases/download/v0.2.0/izer_0.2.0_darwin_amd64.tar.gz | tar --directory /usr/local/bin --gunzip --strip-components=1 -x - izer_0.2.0_darwin_amd64/izer || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: curl-tar :: izer :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

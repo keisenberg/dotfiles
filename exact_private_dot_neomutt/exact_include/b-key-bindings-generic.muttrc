@@ -1,0 +1,42 @@
+#
+## Directives :: Key bindings :: Generic
+
+# Unbindings
+unbind generic <left>
+unbind generic <right>
+unbind generic <home>
+unbind generic <end>
+unbind generic <pagedown>
+unbind generic <pageup>
+unbind generic <f1>
+
+unbind generic !
+unbind generic *
+unbind generic <
+unbind generic =
+unbind generic >
+unbind generic [
+unbind generic ]
+
+unbind generic 1
+unbind generic 2
+unbind generic 3
+unbind generic 4
+unbind generic 5
+unbind generic 6
+unbind generic 7
+unbind generic 8
+unbind generic 9
+
+unbind generic H
+unbind generic L
+unbind generic M
+unbind generic Z
+
+unbind generic j
+unbind generic k
+unbind generic n
+unbind generic t
+unbind generic z
+
+# vi: filetype=neomuttrc

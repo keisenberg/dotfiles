@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+## git :: Git wrapper script :: Allow custom override arguments
+
+
+#
+## Main :: Phase 0
+
+# Action :: git :: Execute with custom override arguments and optional manual directives
+/usr/bin/git -c user.email='92274820+obfuscated@users.noreply.github.com' -c user.name='Obfuscated Obfuscated' -c user.signingkey='0x1234567890abcdef' "$@"

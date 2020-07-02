@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+## message-forward-fuzzy :: Message :: Forward :: Fuzzy
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: fzf :: Arguments
+readonly sr_fzf_arguments='--ansi --exact --exit-0 --inline-info --layout=default --select-1'
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Variable content :: my_mailbox
+if [[ -n "${my_mailbox:-}" ]]; then
+    # Variable modification :: Mailbox :: Reference
+    readonly sr_mailbox_reference="$my_mailbox"
+else
+    # Action :: Print newline
+    printf '\n'
+
+    # Exit gracefully
+    exit 0
+fi
+
+#
+## Preprocess :: Phase 1
+if [[ -f "$HOME/.notmuch/$sr_mailbox_reference.config" ]]; then
+    # Variable modification :: notmuch :: Configuration file
+    readonly sr_notmuch_cf="$HOME/.notmuch/$sr_mailbox_reference.config"
+else
+    # Print :: Push command :: mail
+    printf '%s\n' "push '<forward-message>'"
+
+    # Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence recipient exclusion list
+if [[ -f "$HOME/.notmuch/$sr_mailbox_reference-recipient.exclude" ]]; then
+    # Variable modification :: notmuch :: Address listing
+    # shellcheck disable=SC2086
+    readonly sr_notmuch_al="$(notmuch --config="$sr_notmuch_cf" address --deduplicate=address --output=sender '*' 2>/dev/null | sed -e 's/"//g' 2>/dev/null | grep --invert-match --extended-regexp --file "$HOME/.notmuch/$sr_mailbox_reference-recipient.exclude" 2>/dev/null | sort 2>/dev/null | fzf ${sr_fzf_arguments:-})" || {
+        # Action :: Print newline
+        printf '\n'
+
+        # Action :: Exit gracefully
+        exit 0
+    }
+else
+    # Variable modification :: notmuch :: Address listing
+    # shellcheck disable=SC2086
+    readonly sr_notmuch_al="$(notmuch --config="$sr_notmuch_cf" address --deduplicate=address --output=sender '*' 2>/dev/null | sed -e 's/"//g' 2>/dev/null | sort 2>/dev/null | fzf ${sr_fzf_arguments:-})" || {
+        # Action :: Print newline
+        printf '\n'
+
+        # Action :: Exit gracefully
+        exit 0
+    }
+fi
+
+#
+## Main :: Phase 1
+
+# Validate :: notmuch :: Address listing :: Output
+if [[ -n "$sr_notmuch_al" ]] && [[ "$sr_notmuch_al" =~ ^.*@.*$ ]]; then
+    # Print :: Push command :: mail
+    printf '%s\n' "push '<forward-message>$sr_notmuch_al<enter>'"
+else
+    # Action :: Print newline
+    printf '\n'
+fi

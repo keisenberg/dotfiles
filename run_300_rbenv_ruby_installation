@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+## rbenv_ruby_installation :: Ruby :: Installation
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully
+set -o pipefail
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_300_rbenv_ruby_installation'
+
+# Variable modification :: Ruby :: Version
+readonly cr_ruby_version='2.7.1'
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine successful previous run based on Ruby version
+if [[ -d "$HOME/.rbenv/versions/$cr_ruby_version" ]]; then
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+# Validate :: Determine existence of rbenv binary
+if [[ ! -e '/usr/local/bin/rbenv' ]]; then
+    # Notify :: Missing binary
+    printf '%s\n' "FAIL :: Missing binary :: /usr/local/bin/rbenv :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+fi
+
+#
+## Main :: Phase 0
+
+# Action :: rbenv :: Install desired Ruby version
+rbenv install "$cr_ruby_version" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: rbenv :: install :: $cr_ruby_version :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}
+
+# Action :: rbenv :: Ensure desired Ruby version is set for usage
+rbenv global "$cr_ruby_version" || {
+    # Notify :: Execution failure
+    printf '%s\n' "FAIL :: rbenv :: local :: $cr_ruby_version :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

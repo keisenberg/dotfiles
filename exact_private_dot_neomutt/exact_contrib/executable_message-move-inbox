@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+## message-move-archive :: Message :: Move :: Inbox
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: Mailbox :: Root directory
+readonly sr_mailbox_rd="${HOME:-/NO_USER}/.mail"
+
+#
+## Preprocess :: Phase 0
+
+# Validat :: Variable content :: my_mailbox
+if [[ -n "${my_mailbox:-}" ]]; then
+    # Variable modification :: Mailbox :: Reference
+    readonly sr_mailbox_reference="$my_mailbox"
+else
+    # Action :: Print newline
+    printf '\n'
+
+    # Action :: Exit gracefully
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Existence mailbox directory :: Inbox
+if [[ -d "${sr_mailbox_rd:-/NO_USER}/${sr_mailbox_reference:-NO_MAILBOX_REFERENCE}/INBOX/cur" ]]; then
+    # Print :: Push command :: save-message
+    printf %s "push '<save-message>+$sr_mailbox_reference/INBOX'\n"
+
+    # Print :: Push command :: sync-mailbox / check-stats
+    printf '<sync-mailbox><check-stats>\n'
+else
+    # Action :: Print newline
+    printf '\n'
+fi

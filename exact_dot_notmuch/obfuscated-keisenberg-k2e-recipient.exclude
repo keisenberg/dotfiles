@@ -1,0 +1,51 @@
+^.* <.*-noreply@.*>$
+^.* <.*\+noreply@.*>$
+^.* <.*no-reply@.*>$
+^.* <NOREPLY@.*>$
+^.* <NoReply.*@.*>$
+^.* <Noreply@.*>$
+^.* <QP_Automation_Server@.*>$
+^.* <auto-confirm@.*>$
+^.* <auto-confirm@.*>$
+^.* <auto-notify@.*>$
+^.* <auto-shipping@.*>$
+^.* <automail@.*>$
+^.* <automailer@.*>$
+^.* <automated@.*>$
+^.* <automatisch@.*>$
+^.* <do-not-reply-here@.*>$
+^.* <do-not-reply-it@.*>$
+^.* <do-not-reply-vacancies@.*>$
+^.* <do-not-reply@.*>$
+^.* <do_not_reply@.*>$
+^.* <donot-reply@.*>$
+^.* <donotreply@.*>$
+^.* <eBay@reply.ebay.nl>$
+^.* <google-apps-do-not-reply@.*>$
+^.* <hit-reply@.*>$
+^.* <no-reply.*@.*>$
+^.* <no-reply@.*>$
+^.* <no.reply@.*>$
+^.* <no.reply@.*>$
+^.* <noreply.*@.*>$
+^.* <noreply@.*>$
+^.* <please_do_not_reply>$
+^.* <please_do_not_reply@.*>$
+^.* <scc_noreply@.*>$
+^NOREPLY@.*$
+^NoReply-FlyingBlue@.*$
+^accounts-noreply@.*$
+^auto-letter-generator@.*$
+^automail@.*$
+^billing-noreply@.*$
+^do-not-reply@.*$
+^donotreply@.*$
+^failedreply@.*$
+^no-reply.*@.*$
+^no-reply@.*$
+^no_reply@.*$
+^noreply-payments@.*$
+^noreply@.*$
+^noreply_EU@.*$
+^reply@.*$
+^reply@.*$

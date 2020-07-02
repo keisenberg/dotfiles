@@ -1,0 +1,281 @@
+## init.toml :: SpaceVim :: Custom configuration
+
+
+#
+## Directive :: Options
+
+# Options
+[options]
+    # Colorization :: Theme
+    colorscheme = "solarized8"
+    # Colorization :: Background
+    colorscheme_bg = "dark"
+    # Colorization :: Enable GUI colors as we are using 24 bit terminal
+    enable_guicolors = true
+
+    # Statusline :: Show mode
+    enable_statusline_mode = true
+    # Statusline :: Seperator :: Inactive
+    statusline_inactive_separator = "arrow"
+    # Statusline :: Seperator :: Active
+    statusline_separator = "arrow"
+    # Statusline :: Sections :: Left
+    statusline_left_sections = [ 'winnr', 'filename', 'major mode', 'minor mode lighters', 'syntax checking', 'version control info' ]
+    # Statusline :: Sections :: Right
+    statusline_right_sections = [ 'search status', 'fileformat', 'cursorpos', 'percentage', 'input method', 'time', 'date' ]
+    # Statusline :: Use unicode symbols
+    statusline_unicode_symbols = true
+
+    # Visualization :: Index type :: Buffers
+    buffer_index_type = 3
+    # Visualization :: Index type :: Windows
+    windows_index_type = 1
+    # Visualization :: Filetype :: Use icons
+    enable_tabline_ft_icon = true
+    # Visualization :: Line bar :: Do not use relative numbers
+    relativenumber = false
+
+    # Linting :: Lint on the fly
+    lint_on_the_fly = true
+
+    # Plugin :: File manager :: Filetree manager choise
+    filemanager = "nerdtree"
+    # Plugin :: File manager :: Direction
+    filetree_direction = "left"
+
+    # Includes :: bootstrap_before :: Will be called after custom configuration file is loaded
+    bootstrap_before = "bootstrap#before"
+    # Includes :: bootstrap_after :: Will be called after Vim Enter autocmd
+    bootstrap_after = "bootstrap#after"
+
+
+#
+## Directive :: Layers
+
+# Layer :: autocomplete :: Autocomplete code within SpaceVim, fuzzy find the candidates from multiple completion sources, expand snippet before cursor automatically
+[[layers]]
+    name = "autocomplete"
+    auto_completion_return_key_behavior = "complete"
+    auto_completion_tab_key_behavior = "smart"
+
+# Layer :: checkers :: Provides syntax checking feature
+[[layers]]
+    name = "checkers"
+
+# Layer :: colorscheme :: Provides a list of colorscheme
+[[layers]]
+    name = "colorscheme"
+
+# Layer :: core :: Provides many default key bindings and features
+[[layers]]
+    name = "core"
+    filetree_show_hidden = true
+
+# Layer :: fzf :: Provides a heavily customized fzf centric work-flow
+[[layers]]
+    name = "fzf"
+
+# Layer :: git :: Add extensive support for git
+[[layers]]
+    name = "git"
+    git-plugin = "fugitive"
+
+# Layer :: incsearch :: Improve incremental searching
+[[layers]]
+    name = "incsearch"
+
+# Layer :: indentmove :: Move cursor quickly according to indent
+[[layers]]
+    name = "indentmove"
+
+# Layer :: lang#dockerfile :: DockerFile language support, include syntax highlighting
+[[layers]]
+    name = "lang#dockerfile"
+
+# Layer :: lang#html :: Provides code completion, syntax checking and code formatting for html
+[[layers]]
+    name = "lang#html"
+
+# Layer :: lang#json :: JSON language support, include syntax highlighting
+[[layers]]
+    name = "lang#json"
+
+# Layer :: lang#markdown :: Edit markdown within vim, autopreview markdown in the default browser, with this layer you can also format markdown file
+[[layers]]
+    name = "lang#markdown"
+
+# Layer :: lang#sh :: Shell script development layer, provides autocompletion, syntax checking, code format for bash and zsh script
+[[layers]]
+    name = "lang#sh"
+
+# Layer :: lang#sql :: SQL language support, include syntax highlighting
+[[layers]]
+    name = "lang#sql"
+
+# Layer :: lang#toml :: TOML language support, include syntax highlighting
+[[layers]]
+    name = "lang#toml"
+
+# Layer :: lang#vim :: Vimscript language support, including code completion, syntax checking and buffer formatting
+[[layers]]
+    name = "lang#vim"
+
+# Layer :: lang#xml :: XML language support, include syntax highlighting
+[[layers]]
+    name = "lang#xml"
+
+# Layer :: operator :: Confirm that text is yanked correctly and see yanked text by highlighting
+[[layers]]
+    name = "operator"
+
+# Layer :: shell :: Provide shell support in SpaceVim
+[[layers]]
+    name = "shell"
+    default_height = 30
+    default_position = "bottom"
+
+# Layer :: sudo :: Provides ability to read and write file elevated privileges
+[[layers]]
+    name = "sudo"
+
+# Layer :: tmux :: Adds extensive support for tmux
+[[layers]]
+    name = "tmux"
+
+# Layer :: ui :: Awesome UI layer for SpaceVim, provide IDE-like UI for neovim and vim in both TUI and GUI
+[[layers]]
+    name = "ui"
+    enable_sidebar = false
+
+# Layer :: VersionControl :: Provides general version control feature for Vim
+[[layers]]
+    name = "VersionControl"
+
+
+#
+## Directive :: Custom plugins
+
+# Custom plugin :: https://github.com/pearofducks/ansible-vim :: Syntax highlighting Ansible common filetypes
+[[custom_plugins]]
+    name = "pearofducks/ansible-vim"
+    merged = false
+
+# Custom plugin :: https://github.com/direnv/direnv.vim :: Plugin for direnv support
+[[custom_plugins]]
+    name = "direnv/direnv.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/zivyangll/git-blame.vim :: See Git blame information in the status bar for the currently selected line
+[[custom_plugins]]
+    name = "zivyangll/git-blame.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/junegunn/limelight.vim :: Hyperfocus-writing in Vim
+[[custom_plugins]]
+    name = "junegunn/limelight.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/rhysd/git-messenger.vim :: Reveal commit messages under the cursor
+[[custom_plugins]]
+    name = "rhysd/git-messenger.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/junegunn/goyo.vim :: Distraction-free writing in Vim
+[[custom_plugins]]
+    name = "junegunn/goyo.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/tmsvg/pear-tree :: Auto-pair plugin that supports multi-character pairs, intelligent matching, and more :: Automatically pairs parentheses, quotes, HTML tags, and many other text items based on a simple-to-define set of rules
+[[custom_plugins]]
+    name = "tmsvg/pear-tree"
+    merged = false
+
+# Custom plugin :: https://github.com/wellle/tmux-complete.vim :: Plugin for insert mode completion of words in adjacent tmux panes
+[[custom_plugins]]
+    name = "wellle/tmux-complete.vim"
+    merged = false
+
+# Custom plugin :: https://github.com/liuchengxu/vim-clap :: Modern performant generic finder and dispatcher for Vim
+[[custom_plugins]]
+    name = "liuchengxu/vim-clap"
+    merged = false
+
+# Custom plugin :: https://github.com/ryanoasis/vim-devicons :: Add file type icons to Vim plugins such as NERDTree, vim-airline, vim-startify, and many more
+[[custom_plugins]]
+    name = "ryanoasis/vim-devicons"
+    merged = false
+
+# Custom plugin :: https://github.com/blueyed/vim-diminactive :: Dim inactive windows
+[[custom_plugins]]
+    name = "blueyed/vim-diminactive"
+    merged = false
+
+# # Custom plugin :: https://github.com/voldikss/vim-floaterm :: Use terminal in popup window // NOTE :: Does not work wel with <arrow-up> / <arrow-down>, revisit later
+# [[custom_plugins]]
+#     name = "voldikss/vim-floaterm"
+#     merged = false
+
+# Simplified and optimized Gruvbox colorscheme for Vim
+[[custom_plugins]]
+    name = "lifepillar/vim-gruvbox8"
+    merged = false
+
+# Custom plugin :: https://github.com/Glench/Vim-Jinja2-Syntax :: An up-to-date jinja2 syntax file
+[[custom_plugins]]
+    name = "Glench/Vim-Jinja2-Syntax"
+    merged = false
+
+# Custom plugin :: https://github.com/plasticboy/vim-markdown :: Syntax highlighting, matching rules and mappings for the original Markdown and extensions
+[[custom_plugins]]
+    name = "plasticboy/vim-markdown"
+    merged = false
+
+# Custom plugin :: https://github.com/itspriddle/vim-marked :: Open the current Markdown buffer in Marked 2.app
+[[custom_plugins]]
+    name = "itspriddle/vim-marked"
+    merged = false
+
+# Custom plugin :: https://github.com/simnalamburt/vim-mundo :: Undo tree visualizer
+[[custom_plugins]]
+    name = "simnalamburt/vim-mundo"
+    merged = false
+
+# Custom plugin :: https://github.com/clarke/vim-renumber :: Allow easily reordering of numbered lists
+[[custom_plugins]]
+    name = "clarke/vim-renumber"
+    merged = false
+
+# Custom plugin :: https://github.com/lifepillar/vim-solarized8 :: Optimized Solarized colorschemes. Best served with true-color terminals
+[[custom_plugins]]
+    name = "lifepillar/vim-solarized8"
+    merged = false
+
+# Custom plugin :: https://github.com/z0mbix/vim-shfmt :: Plugin for shfmt
+[[custom_plugins]]
+    name = "z0mbix/vim-shfmt"
+    merged = false
+
+# Custom plugin :: https://github.com/tmux-plugins/vim-tmux :: Vim plugin for tmux.conf
+[[custom_plugins]]
+    name = "tmux-plugins/vim-tmux"
+    merged = false
+
+# Custom plugin :: https://github.com/tmux-plugins/vim-tmux-focus-events :: Make terminal Vim and Tmux work better together :: Ensure FocusGained / FocusLost autocommand events are working properly
+[[custom_plugins]]
+    name = "tmux-plugins/vim-tmux-focus-events"
+    merged = false
+
+# Custom plugin :: https://github.com/thaerkh/vim-workspace :: Automated Vim session management
+[[custom_plugins]]
+    name = "thaerkh/vim-workspace"
+    merged = false
+
+# Custom plugin :: https://github.com/sedm0784/vim-you-autocorrect :: Auto correct incorrect and less correct words
+[[custom_plugins]]
+    name = "sedm0784/vim-you-autocorrect"
+    merged = false
+
+# # Custom plugin :: https://github.com/jreybert/vimagit :: Ease your Git workflow within Vim // NOTE :: Revisit once push is integrated
+# [[custom_plugins]]
+#     name = "jreybert/vimagit"
+#     merged = false

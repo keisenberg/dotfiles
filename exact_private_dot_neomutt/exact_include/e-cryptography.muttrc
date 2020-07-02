@@ -1,0 +1,22 @@
+#
+## Directives :: Cryptography
+
+# Do not automatically enable S/MIME encryption/signing for messages
+set crypt_autosmime = no
+
+# Automatically enable and disable encryption, based on whether all message recipient keys can be located by NeoMutt
+set crypt_opportunistic_encrypt = yes
+
+# Automatically sign replies to messages which are signed
+set crypt_replysign = yes
+
+# Automatically sign replies to messages which are encrypted
+set crypt_replysignencrypted = yes
+
+# Use GPGME-enabled crypto backends for S/MIME and PGP
+set crypt_use_gpgme = yes
+
+# Do not ignore OpenPGP subkeys allow for more fine-grained key selection games
+set pgp_ignore_subkeys = no
+
+# vi: filetype=neomuttrc

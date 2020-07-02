@@ -1,0 +1,13 @@
+#
+## Static functions
+
+# Function modification :: pip_g
+pip_g() {
+    # Variable modification :: PIP_REQUIRE_VIRTUALENV
+    unset PIP_REQUIRE_VIRTUALENV
+
+    # Action :: Run pip with specified arguments
+    pip "$@"
+}
+
+# vi: filetype=zsh

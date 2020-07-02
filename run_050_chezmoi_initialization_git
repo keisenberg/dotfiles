@@ -1,0 +1,62 @@
+#!/usr/bin/env sh
+## chezmoi_initialization_git :: chezmoi :: Initialization :: GIT
+
+#
+## Initialization :: Phase 0
+
+# Fail-safe :: Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion. An error message will be written to the standard error, and a non-interactive shell will exit
+set -u
+
+#
+## Initialization :: Variables :: Static
+
+# Variable modification :: Script :: Short name
+readonly cr_script_sn='run_050_chezmoi_initialization_git'
+
+#
+## Initialization :: Variables :: Dynamic
+
+# Variable modification :: State :: Success
+readonly cr_state_success="$HOME/.config/chezmoi/state/$cr_script_sn"
+
+#
+## Preprocess :: Phase 0
+
+# Validate :: Determine state :: Success
+if [ -e "$cr_state_success" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+# Validate :: Existence :: chezmoi :: GIT configuration file
+if [ ! -e "$HOME/.local/share/chezmoi/.git/config" ]; then
+    # Action :: Graceful exit
+    exit 0
+fi
+
+#
+## Main :: Phase 0
+
+# Validate :: Determine usage of HTTPS based Git remote url
+if grep --extended-regexp '^\s+url = https://.*@.*\.git$' --quiet "$HOME/.local/share/chezmoi/.git/config"; then
+    # Action :: Git :: Set remote url :: HTTPS -> SSH
+    git -C "$HOME/.local/share/chezmoi" remote set-url origin "$(sed -e 's/^[[:space:]]*url = https:\/\/.*@\(.*\)\/\(.*\)\/\(.*\)$/git@\1:\2\/\3/p' -n "$HOME/.local/share/chezmoi/.git/config")" || {
+        # Notify :: Execution failure
+        printf '%s\n' "FAIL :: git :: remote :: set-url-sed :: $cr_script_sn/$LINENO"
+
+        # Action :: Exit ungracefully
+        exit 1
+    }
+fi
+
+#
+## Postprocess :: Phase 0
+
+# File modification :: $cr_state_success
+touch "$cr_state_success" || {
+    # Notify :: touch failure
+    printf '%s\n' "FAIL :: touch :: $cr_state_success :: $cr_script_sn/$LINENO"
+
+    # Action :: Exit ungracefully
+    exit 1
+}

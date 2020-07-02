@@ -1,0 +1,33 @@
+#
+## Directives :: Key unbindings :: browser
+
+# Unbindings
+unbind browser <space>
+
+unbind browser .
+unbind browser =
+unbind browser @
+
+unbind browser C
+unbind browser N
+unbind browser O
+unbind browser T
+
+unbind browser c
+unbind browser d
+unbind browser m
+unbind browser o
+unbind browser p
+unbind browser r
+unbind browser u
+
+
+# Bindings
+bind browser v view-file
+bind browser h first-entry
+bind browser j next-entry
+bind browser k previous-entry
+bind browser l last-entry
+bind browser t tag-entry
+
+# vi: filetype=neomuttrc

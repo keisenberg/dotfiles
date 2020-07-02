@@ -1,0 +1,84 @@
+#
+## Directives :: Identity :: Variables
+
+# Custom variables
+set my_mailbox = 'smp-10510-g8f'
+
+# Custom environment
+setenv my_mailbox $my_mailbox
+
+
+#
+## Directives :: Identity :: Configuration
+
+# Real name used when sending messages
+set realname = 'Obfuscated Obfuscated'
+
+# Default from address
+set from = 'obfuscated@obfuscated.tld'
+
+# Fully-qualified hostname of the system NeoMutt is running on containing the host name and the DNS domain it belongs to. It is used as the domain part (after @) for local email addresses as well as Message-Id headers
+set hostname = 'obfuscated.tld'
+
+# Default key pair to use for PGP operations :: Encryption
+set pgp_default_key = '0x99BD283C6A258A38'
+
+# Default key pair to use for PGP operations :: Signing
+set pgp_sign_as = '0x7B7DA3D231B2BDD1'
+
+
+#
+## Directives :: Identity :: Mailboxes
+
+# Specify folders which can receive mail and which will be checked for new messages // ♠↓↑∇∗∃
+unmailboxes *
+named-mailboxes "  $my_mailbox ――――――――――――――――"   =.delimeter/00
+named-mailboxes "     Inbox"                       "notmuch://?query=folder:INBOX"
+named-mailboxes "     Drafts"                      "notmuch://?query=folder:Drafts"
+named-mailboxes "     Sent"                        "notmuch://?query=folder:Sent"
+named-mailboxes "     Archive"                     "notmuch://?query=folder:Archive"
+named-mailboxes "     Junk"                        "notmuch://?query=folder:Junk"
+named-mailboxes "     Trash"                       "notmuch://?query=folder:Trash"
+named-mailboxes " "                                 =.delimeter/01
+named-mailboxes " 狀Tags :: Status ―――――――――――――――" =.delimeter/02
+named-mailboxes "     Unread"                      "notmuch://?query=tag:unread and not folder:Drafts and not folder:Sent and not folder:Archive and not folder:Trash"
+named-mailboxes "     Flagged"                     "notmuch://?query=tag:flagged"
+named-mailboxes " "                                 =.delimeter/03
+named-mailboxes " 狀Tags :: Dates ――――――――――――――――" =.delimeter/04
+named-mailboxes "   ﮮ  Today"                       "notmuch://?query=date:today"
+named-mailboxes "   ﮮ  Yesterday"                   "notmuch://?query=date:yesterday"
+named-mailboxes "   ﮮ  Week"                        "notmuch://?query=date:week"
+named-mailboxes "   ﮮ  Month"                       "notmuch://?query=date:month"
+
+
+#
+## Directives :: Identity :: Paths
+
+# Path to spool mailboxes
+set spoolfile = +$my_mailbox/INBOX
+set postponed  =+$my_mailbox/Drafts
+set record = +$my_mailbox/Sent
+set mbox = +$my_mailbox/Archive
+set trash = +$my_mailbox/Trash
+
+# Path to notmuch database
+set nm_default_uri = "notmuch://{{ .chezmoi.homedir }}/.mail/$my_mailbox"
+
+# Program and arguments used to deliver mail
+set sendmail  = "/usr/local/bin/msmtp --account=$my_mailbox"
+
+
+#
+## Directives :: Cryptography
+
+# Always attempt to cryptographically sign outgoing messages
+set crypt_autosign = no
+
+
+#
+## Directives :: Composition :: Sending
+
+# Add custom header(s) to composed messages
+my_hdr X-Mail-User-Agent: All mail clients suck. This one just sucks less.
+
+# vi: filetype=neomuttrc
